@@ -15,3 +15,9 @@
 [2025-12-28 16:22:43,269] restartedMain com.app.TurfBookingApplication.controller.AppController 12 ERROR  - ==== LOG4J FILE TEST ====
 [2025-12-28 16:24:50,943] restartedMain com.app.TurfBookingApplication.controller.AppController 12 ERROR  - ==== LOG4J FILE TEST ====
 [2025-12-28 16:24:57,002] http-nio-8086-exec-4 com.app.TurfBookingApplication.controller.AppController 16 INFO   - request recieved in controller for test endpoint
+[2025-12-28 16:37:26,409] restartedMain com.app.TurfBookingApplication.controller.AppController 12 ERROR  - ==== LOG4J FILE TEST ====
+[2025-12-28 16:37:51,859] restartedMain com.app.TurfBookingApplication.controller.AppController 12 ERROR  - ==== LOG4J FILE TEST ====
+[2025-12-28 16:38:00,106] restartedMain com.app.TurfBookingApplication.controller.AppController 12 ERROR  - ==== LOG4J FILE TEST ====
+[2025-12-28 16:42:05,686] restartedMain com.app.TurfBookingApplication.controller.AppController 12 ERROR  - ==== LOG4J FILE TEST ====
+[2025-12-28 16:43:10,420] restartedMain com.app.TurfBookingApplication.controller.AppController 12 ERROR  - ==== LOG4J FILE TEST ====
+[2025-12-28 16:45:28,861] restartedMain com.app.TurfBookingApplication.controller.AppController 12 ERROR  - ==== LOG4J FILE TEST ====

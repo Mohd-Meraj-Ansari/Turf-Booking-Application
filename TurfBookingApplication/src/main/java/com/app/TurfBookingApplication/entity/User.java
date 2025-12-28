@@ -58,16 +58,19 @@ public class User {
 	@OneToOne(mappedBy = "owner")
 	private Turf turf;
 	
+	private LocalDateTime createdAt;
+	private LocalDateTime modifiedAt;
+	
 	@PrePersist
 	protected void atCreation() {
 		LocalDateTime now = LocalDateTime.now();
-		this.created_at = now;
-		this.modified_at = now;
+		this.createdAt = now;
+		this.modifiedAt = now;
 	}
 	
 	@PreUpdate
 	protected void atUpdation()
 	{
-		this.modified_at = LocalDateTime.now();
+		this.modifiedAt = LocalDateTime.now();
 	}
 }
