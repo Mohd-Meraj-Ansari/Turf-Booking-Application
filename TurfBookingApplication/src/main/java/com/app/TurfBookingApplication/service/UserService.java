@@ -19,37 +19,32 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-	
-	private static final Logger logger = Logger.getLogger(AppController.class);
 
-	private final UserRepository userRepository;
-	private final RoleRepository roleRepository;
-	private final PasswordEncoder passwordEncoder;
+	private static final Logger logger = Logger.getLogger(AppController.class); // logger is created
 
-	public User addUser(UserRequestDTO dto) {
+	private final UserRepository userRepository; // reference is created for userRepository
+	private final RoleRepository roleRepository; // reference is created for roleRepository
+	private final PasswordEncoder passwordEncoder; // // reference is created for passwordEncoder
 
-		logger.info("request recieved in service for add user request");
-		
-		if (userRepository.existsByEmail(dto.getEmail())) {
-			throw new RuntimeException("Email already exists");
+	public User addUser(UserRequestDTO dto) { 
+
+		logger.info("request recieved in service for add user request");  // logs into log file
+
+		if (userRepository.existsByEmail(dto.getEmail())) {   //check if email already exist in db
+			throw new RuntimeException("Email already exists"); // if yes throw runtime exception
 		}
 
-		Role userRole = roleRepository.findByRoleName("ROLE_USER");
-		  Set<Role> roles = new HashSet<>();
-	        roles.add(userRole);
+		Role userRole = roleRepository.findByRoleName("ROLE_USER");  //fetching role from db
+		Set<Role> roles = new HashSet<>();                           // creating hashset for roles
+		roles.add(userRole);                                         // adding user role to roles 
 
-		User user = User
-				.builder()
-				.name(dto
-						.getName())
-				.email(dto
-						.getEmail())
-				.password(passwordEncoder
-						.encode(dto
-								.getPassword()))
+		User user = User.builder()  // creating user entity
+				.name(dto.getName())
+				.email(dto.getEmail())  
+				.password(passwordEncoder.encode(dto.getPassword()))
 				.roles(roles)
 				.build();
 
-		return userRepository.save(user);
+		return userRepository.save(user);       // adding entity to db
 	}
 }

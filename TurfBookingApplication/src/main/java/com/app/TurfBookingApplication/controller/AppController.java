@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.TurfBookingApplication.dto.UserRequestDTO;
 import com.app.TurfBookingApplication.service.UserService;
 
-import jakarta.validation.Valid;
-
 @RestController
 @RequestMapping("/api/users")
 public class AppController {
@@ -29,10 +27,10 @@ public class AppController {
 		return "test endpoint";
 	}
 
-	@PostMapping("/add-user")
-	public ResponseEntity<String> addUser(@RequestBody UserRequestDTO dto) {
-		logger.info("request recieved in controller for add user request");
-		userService.addUser(dto);
-		return new ResponseEntity<String>("User registered successfully", HttpStatus.OK);
+	@PostMapping("/add-user")             //endpoint to add new user 
+	public ResponseEntity<String> addUser(@RequestBody UserRequestDTO dto) { 
+		logger.info("request recieved in controller for add user request"); // log recieved request into file 
+		userService.addUser(dto);  // call adduser of service class and pass recieved dto as parameter
+		return new ResponseEntity<String>("User registered successfully", HttpStatus.OK);  // if user is added return with message and OK response 
 	}
 }
