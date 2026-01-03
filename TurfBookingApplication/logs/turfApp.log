@@ -5,3 +5,4 @@
 [2025-12-31 12:26:53,687] http-nio-8086-exec-8 com.app.TurfBookingApplication.controller.AppController 31 INFO   - request recieved in service for add user request
 [2025-12-31 12:28:45,266] http-nio-8086-exec-1 com.app.TurfBookingApplication.controller.AppController 32 INFO   - request recieved in controller for add user request
 [2025-12-31 12:28:45,266] http-nio-8086-exec-1 com.app.TurfBookingApplication.controller.AppController 31 INFO   - request recieved in service for add user request
+[2026-01-03 12:28:16,420] http-nio-8086-exec-3 com.app.TurfBookingApplication.controller.AppController 21 INFO   - request recieved in controller for test endpoint

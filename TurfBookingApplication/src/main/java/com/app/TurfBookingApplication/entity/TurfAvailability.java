@@ -1,11 +1,7 @@
 package com.app.TurfBookingApplication.entity;
 
-import java.time.LocalDate;
+import java.time.DayOfWeek;
 import java.time.LocalTime;
-
-import com.app.TurfBookingApplication.enums.BookingStatus;
-import com.app.TurfBookingApplication.enums.BookingType;
-import com.app.TurfBookingApplication.enums.CancelledBy;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,6 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,34 +22,25 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Builder
-public class Booking {
+@Table(
+    uniqueConstraints = @UniqueConstraint(
+        columnNames = {"turf_id", "dayOfWeek"}
+    )
+)
+public class TurfAvailability {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    private User client;
-
-    @ManyToOne
     private Turf turf;
 
-    private LocalDate bookingDate;
-    private LocalTime startTime;
-    private LocalTime endTime;
-
     @Enumerated(EnumType.STRING)
-    private BookingType bookingType;
+    private DayOfWeek dayOfWeek;
 
-    private Integer totalHours;
+    private boolean available;
 
-    private Double totalAmount;
-    private Double advanceAmount;
-
-    @Enumerated(EnumType.STRING)
-    private BookingStatus status;
-
-    @Enumerated(EnumType.STRING)
-    private CancelledBy cancelledBy;
+    private LocalTime openTime;
+    private LocalTime closeTime;
 }
-

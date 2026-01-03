@@ -1,11 +1,9 @@
 package com.app.TurfBookingApplication.entity;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
-import com.app.TurfBookingApplication.enums.BookingStatus;
-import com.app.TurfBookingApplication.enums.BookingType;
-import com.app.TurfBookingApplication.enums.CancelledBy;
+import com.app.TurfBookingApplication.enums.AdvertisementDuration;
+import com.app.TurfBookingApplication.enums.AdvertisementStatus;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -24,34 +22,25 @@ import lombok.Setter;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Builder
-public class Booking {
+public class GroundAdvertisement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    private User client;
+    private User advertiser;
 
     @ManyToOne
     private Turf turf;
 
-    private LocalDate bookingDate;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    @Enumerated(EnumType.STRING)
+    private AdvertisementDuration duration;
 
     @Enumerated(EnumType.STRING)
-    private BookingType bookingType;
+    private AdvertisementStatus status;
 
-    private Integer totalHours;
-
-    private Double totalAmount;
-    private Double advanceAmount;
-
-    @Enumerated(EnumType.STRING)
-    private BookingStatus status;
-
-    @Enumerated(EnumType.STRING)
-    private CancelledBy cancelledBy;
+    private LocalDate startDate;
+    private LocalDate endDate;
 }
 
