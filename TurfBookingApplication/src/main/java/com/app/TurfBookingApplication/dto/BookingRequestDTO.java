@@ -15,7 +15,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class BookingRequestDTO {
-
 	private LocalDateTime bookingDate; // when the booking is scheduled
 	private Long userId; // reference to User
 	private Long turfId; // reference to Turf
