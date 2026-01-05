@@ -18,7 +18,8 @@ public class SecurityConfig {
          .csrf(csrf -> csrf.disable())
          .authorizeHttpRequests(auth -> auth
              .requestMatchers(HttpMethod.GET, "/api/users/test").permitAll()
-             .requestMatchers(HttpMethod.POST, "/api/users/add-user").permitAll()
+             .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
+             .requestMatchers(HttpMethod.GET, "/api/users/all").permitAll()
              .anyRequest().authenticated()
          )
          .httpBasic(); // default auth for other endpoints

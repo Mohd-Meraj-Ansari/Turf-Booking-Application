@@ -3,10 +3,8 @@ package com.app.TurfBookingApplication.dto;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
