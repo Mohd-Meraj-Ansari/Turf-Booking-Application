@@ -1,5 +1,7 @@
 package com.app.TurfBookingApplication.dto;
 
+import com.app.TurfBookingApplication.enums.UserRole;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -26,4 +28,6 @@ public class UserRequestDTO {
 
 	    @NotBlank(message = "Password is required")
 	    private String password;
+	    
+	    private UserRole role;
 }
