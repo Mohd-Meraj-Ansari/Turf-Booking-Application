@@ -20,6 +20,7 @@ public class SecurityConfig {
              .requestMatchers(HttpMethod.GET, "/api/users/test").permitAll()
              .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
              .requestMatchers(HttpMethod.GET, "/api/users/all").permitAll()
+             .requestMatchers(HttpMethod.PUT, "/api/users/update-profile").authenticated()
              .anyRequest().authenticated()
          )
          .httpBasic(); // default auth for other endpoints

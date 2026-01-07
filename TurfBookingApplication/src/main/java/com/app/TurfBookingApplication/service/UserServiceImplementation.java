@@ -3,9 +3,10 @@ package com.app.TurfBookingApplication.service;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.app.TurfBookingApplication.controller.AppController;
+import com.app.TurfBookingApplication.dto.UpdateUserRequestDTO;
 import com.app.TurfBookingApplication.dto.UserRequestDTO;
 import com.app.TurfBookingApplication.dto.UserResponseDTO;
 import com.app.TurfBookingApplication.entity.User;
@@ -24,6 +25,7 @@ public class UserServiceImplementation implements UserService {
 
     private final UserRepository userRepository;
     private final WalletRepository walletRepository;
+    private final PasswordEncoder passwordEncoder;
     
     private static final Logger logger=Logger.getLogger(UserServiceImplementation.class);
 
@@ -46,7 +48,7 @@ public class UserServiceImplementation implements UserService {
         User user = User.builder()			// create user entity
                 .name(request.getName())
                 .email(request.getEmail())
-                .password(request.getPassword()) // encode later
+                .password(passwordEncoder.encode(request.getPassword())) // encode password
                 .role(request.getRole())
                 .build();
 
@@ -83,6 +85,36 @@ public class UserServiceImplementation implements UserService {
                         .role(user.getRole())
                         .build())
                 .toList();
+    }
+    
+    
+    @Override
+    public UserResponseDTO updateMyProfile(
+            UpdateUserRequestDTO request,
+            String loggedInEmail) {
+    	
+    		logger.info("request received in service to update user details");
+
+        User user = userRepository.findByEmail(loggedInEmail)  // fetch logged-in user form db
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (request.getName() != null) {		// check and update username
+            user.setName(request.getName());
+        }
+
+        if (request.getPassword() != null) {  // check and update password
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+
+        User updatedUser = userRepository.save(user);  //save new details in db
+
+        
+        return UserResponseDTO.builder()		// return response
+                .id(updatedUser.getId())
+                .name(updatedUser.getName())
+                .email(updatedUser.getEmail())
+                .role(updatedUser.getRole())
+                .build();
     }
 }
 
