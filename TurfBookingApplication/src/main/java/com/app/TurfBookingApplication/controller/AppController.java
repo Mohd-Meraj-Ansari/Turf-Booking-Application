@@ -2,6 +2,7 @@ package com.app.TurfBookingApplication.controller;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,18 +24,21 @@ public class AppController {
     public AppController(UserService userService) {
         this.userService = userService;
     }
+    
+    private static final Logger logger=Logger.getLogger(AppController.class); // create logger for this class
 
 	    @PostMapping("/register")       // register endpoint to register users
 	    public ResponseEntity<UserResponseDTO> registerUser(      // accepts request dto and returns response dto
 	            @RequestBody UserRequestDTO request) {
 
 	        UserResponseDTO response = userService.createUser(request);   // calls createUser in service class
+	        logger.info("request received in controller to create user"); // log request 
 	        return ResponseEntity.status(HttpStatus.CREATED).body(response);  // returns response
 	    }
 
 	    @GetMapping("/all")  // all endpoint to retrive all users
 	    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {  // returns list of user response dto 
-
+	    		logger.info("request received in controller get all users"); //log request
 	        List<UserResponseDTO> users = userService.getAllUsers();   // calls getAllusers of userService class
 	        return ResponseEntity.ok(users); // returns list of users
 	    }

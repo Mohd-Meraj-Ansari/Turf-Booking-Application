@@ -2,8 +2,10 @@ package com.app.TurfBookingApplication.service;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.app.TurfBookingApplication.controller.AppController;
 import com.app.TurfBookingApplication.dto.UserRequestDTO;
 import com.app.TurfBookingApplication.dto.UserResponseDTO;
 import com.app.TurfBookingApplication.entity.User;
@@ -22,10 +24,13 @@ public class UserServiceImplementation implements UserService {
 
     private final UserRepository userRepository;
     private final WalletRepository walletRepository;
+    
+    private static final Logger logger=Logger.getLogger(UserServiceImplementation.class);
 
     @Override
     public UserResponseDTO createUser(UserRequestDTO request) {
-
+    	
+    		logger.info("request received in service to create user"); // log into file  
         if (userRepository.existsByEmail(request.getEmail())) {  // check if email already exist in db
             throw new RuntimeException("Email already exists");
         }
@@ -68,6 +73,7 @@ public class UserServiceImplementation implements UserService {
     @Override
     public List<UserResponseDTO> getAllUsers() { 		// return all users 
 
+    	logger.info("request received in service to get all users");  // log into file
         return userRepository.findAll()
                 .stream()
                 .map(user -> UserResponseDTO.builder()
