@@ -31,7 +31,6 @@ public class TurfAvailabilityRequestDTO {
     @NotNull(message = "Close time is required")
     private LocalTime closeTime;
 
-    // Optional custom validation method
     @AssertTrue(message = "Close time must be after open time")
     public boolean isValidTimeRange() {
         if (openTime == null || closeTime == null) return true;

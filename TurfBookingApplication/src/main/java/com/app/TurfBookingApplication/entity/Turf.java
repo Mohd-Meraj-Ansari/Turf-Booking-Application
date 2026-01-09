@@ -27,7 +27,7 @@ import lombok.Setter;
 @Builder
 public class Turf {
 
-	 @Id
+	 	@Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
 
@@ -36,6 +36,8 @@ public class Turf {
 	    @Enumerated(EnumType.STRING)
 	    private TurfType turfType;
 
+	    private String location;
+	    
 	    private Double pricePerHour;
 
 	    @OneToOne

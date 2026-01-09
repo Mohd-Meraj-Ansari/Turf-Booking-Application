@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,9 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.TurfBookingApplication.dto.TurfRequestDTO;
+import com.app.TurfBookingApplication.dto.TurfResponseDTO;
 import com.app.TurfBookingApplication.dto.UpdateUserRequestDTO;
 import com.app.TurfBookingApplication.dto.UserRequestDTO;
 import com.app.TurfBookingApplication.dto.UserResponseDTO;
+import com.app.TurfBookingApplication.entity.Turf;
+import com.app.TurfBookingApplication.security.AuthService;
 import com.app.TurfBookingApplication.service.UserService;
 
 
@@ -23,9 +28,11 @@ import com.app.TurfBookingApplication.service.UserService;
 @RequestMapping("/api/users")
 public class AppController {
 	private final UserService userService;
+	private final AuthService authService;
 
-    public AppController(UserService userService) {
+    public AppController(UserService userService, AuthService authService) {
         this.userService = userService;
+		this.authService = authService;
     }
     
     private static final Logger logger=Logger.getLogger(AppController.class); // create logger for this class
@@ -60,4 +67,22 @@ public class AppController {
 	        return ResponseEntity.ok(response); // return response
 	    }
 
+	    @PostMapping //endpoint to add turf
+	    public ResponseEntity<TurfResponseDTO> addTurf(@Validated @RequestBody TurfRequestDTO dto) {
+
+	    	Long adminId = authService.getLoggedInUserId();  //get currently logged in user from authservice
+
+	        Turf turf = userService.addTurf(dto, adminId); //call addturf in userservice
+
+	        TurfResponseDTO response = TurfResponseDTO.builder() //turf into turfResponseDTO
+	                .id(turf.getId())
+	                .turfName(turf.getTurfName())
+	                .turfType(turf.getTurfType())
+	                .location(turf.getLocation())
+	                .pricePerHour(turf.getPricePerHour())
+	                .ownerId(turf.getOwner().getId())
+	                .build();
+
+	        return ResponseEntity.ok(response); // return dto
+	    }
 }
