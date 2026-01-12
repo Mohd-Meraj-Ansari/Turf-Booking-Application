@@ -67,22 +67,22 @@ public class AppController {
 	        return ResponseEntity.ok(response); // return response
 	    }
 
-	    @PostMapping //endpoint to add turf
-	    public ResponseEntity<TurfResponseDTO> addTurf(@Validated @RequestBody TurfRequestDTO dto) {
-
-	    	Long adminId = authService.getLoggedInUserId();  //get currently logged in user from authservice
-
-	        Turf turf = userService.addTurf(dto, adminId); //call addturf in userservice
-
-	        TurfResponseDTO response = TurfResponseDTO.builder() //turf into turfResponseDTO
-	                .id(turf.getId())
-	                .turfName(turf.getTurfName())
-	                .turfType(turf.getTurfType())
-	                .location(turf.getLocation())
-	                .pricePerHour(turf.getPricePerHour())
-	                .ownerId(turf.getOwner().getId())
-	                .build();
-
-	        return ResponseEntity.ok(response); // return dto
-	    }
+//	    @PostMapping //endpoint to add turf
+//	    public ResponseEntity<TurfResponseDTO> addTurf(@Validated @RequestBody TurfRequestDTO dto) {
+//
+//	    	Long adminId = authService.getLoggedInUserId();  //get currently logged in user from authservice
+//
+//	        Turf turf = userService.addTurf(dto, adminId); //call addturf in userservice
+//
+//	        TurfResponseDTO response = TurfResponseDTO.builder() //turf into turfResponseDTO
+//	                .id(turf.getId())
+//	                .turfName(turf.getTurfName())
+//	                .turfType(turf.getTurfType())
+//	                .location(turf.getLocation())
+//	                .pricePerHour(turf.getPricePerHour())
+//	                .ownerId(turf.getOwner().getId())
+//	                .build();
+//
+//	        return ResponseEntity.ok(response); // return dto
+//	    }
 }

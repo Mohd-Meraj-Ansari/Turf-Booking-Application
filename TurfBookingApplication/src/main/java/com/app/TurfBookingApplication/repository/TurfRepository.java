@@ -8,5 +8,5 @@ import com.app.TurfBookingApplication.entity.Turf;
 
 public interface TurfRepository extends JpaRepository<Turf, Long> {
 
-    Optional<Turf> findByAdminId(Long adminId);
+//    Optional<Turf> findByAdminId(Long adminId);
 }
