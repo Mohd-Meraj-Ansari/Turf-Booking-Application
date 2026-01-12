@@ -1,10 +1,11 @@
 import { useState } from "react";
 import "./App.css";
+import RegisterPage from "./components/RegisterPage";
 
 function App() {
   return (
     <>
-      <h1>Turf App UI</h1>
+      <RegisterPage />
     </>
   );
 }

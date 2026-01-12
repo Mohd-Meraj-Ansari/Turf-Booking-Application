@@ -96,25 +96,31 @@ public class UserServiceImplementation implements UserService {
 				.role(updatedUser.getRole()).build();
 	}
 
-	@Transactional //multiple operations in db
 	@Override
-	public Turf addTurf(TurfRequestDTO dto , Long adminId) {
-
-		turfRepository.findByAdminId(adminId).ifPresent(t -> {      //if admin already has one turf
-			throw new RuntimeException("Admin already owns a turf");
-		});
-
-		User owner = userRepository.findById(adminId).orElseThrow(() -> new RuntimeException("Admin not found")); // if admin does not exist
-
-		Turf turf = Turf.builder()  // if not then create turf entity
-				.turfName(dto.getTurfName())
-				.turfType(dto.getTurfType())
-				.location(dto.getLocation())
-				.pricePerHour(dto.getPricePerHour())
-				.owner(owner)
-				.build();
-
-		return turfRepository.save(turf);  //return turf
+	public Turf addTurf(TurfRequestDTO dto, Long adminId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+//	@Transactional //multiple operations in db
+//	@Override
+//	public Turf addTurf(TurfRequestDTO dto , Long adminId) {
+//
+//		turfRepository.findByAdminId(adminId).ifPresent(t -> {      //if admin already has one turf
+//			throw new RuntimeException("Admin already owns a turf");
+//		});
+//
+//		User owner = userRepository.findById(adminId).orElseThrow(() -> new RuntimeException("Admin not found")); // if admin does not exist
+//
+//		Turf turf = Turf.builder()  // if not then create turf entity
+//				.turfName(dto.getTurfName())
+//				.turfType(dto.getTurfType())
+//				.location(dto.getLocation())
+//				.pricePerHour(dto.getPricePerHour())
+//				.owner(owner)
+//				.build();
+//
+//		return turfRepository.save(turf);  //return turf
+//	}
 
 }

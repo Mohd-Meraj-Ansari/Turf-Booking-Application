@@ -17,6 +17,7 @@ public class SecurityConfig {
 
 		 http
          .csrf(csrf -> csrf.disable())
+         .cors(cors -> cors.configure(http))   // ✅ ENABLE CORS SUPPORT
          .authorizeHttpRequests(auth -> auth
              .requestMatchers(HttpMethod.GET, "/api/users/test").permitAll()
              .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
