@@ -1,0 +1,22 @@
+.login-container {
+  height: 100vh;
+  background: linear-gradient(to right, #4caf50, #2e7d32);
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #4caf50;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #388e3c;
+}
