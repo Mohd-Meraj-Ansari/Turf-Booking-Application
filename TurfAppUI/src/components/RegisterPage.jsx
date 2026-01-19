@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./RegisterPage.css";
 import axios from "axios";
 
@@ -11,6 +12,7 @@ const RegisterPage = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,6 +33,9 @@ const RegisterPage = () => {
 
       console.log("Backend Response:", response.data);
       alert("User registered successfully!");
+
+      // ✅ Redirect to login page after success
+      navigate("/login");
     } catch (error) {
       console.error("Error:", error);
       alert("Registration failed!");
@@ -115,6 +120,9 @@ const RegisterPage = () => {
             Register
           </button>
         </form>
+ <p className="text-center mt-3">
+          Already have an account? <a href="/login">Login here</a>
+        </p>
       </div>
     </div>
   );
