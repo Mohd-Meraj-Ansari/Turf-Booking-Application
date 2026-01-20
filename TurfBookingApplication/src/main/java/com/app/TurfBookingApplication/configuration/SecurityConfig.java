@@ -11,27 +11,27 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-	@SuppressWarnings("removal")
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-		 http
-         .csrf(csrf -> csrf.disable())
-         .cors(cors -> cors.configure(http))   // ✅ ENABLE CORS SUPPORT
-         .authorizeHttpRequests(auth -> auth
-             .requestMatchers(HttpMethod.GET, "/api/users/test").permitAll()
-             .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
-             .requestMatchers(HttpMethod.GET, "/api/users/all").permitAll()
-             .requestMatchers(HttpMethod.PUT, "/api/users/update-profile").authenticated()
-             .anyRequest().authenticated()
-         )
-         .httpBasic(); // default auth for other endpoints
+        http
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> {})  
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers(HttpMethod.GET, "/api/users/test").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/users/all").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/users/add-turf").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/users/update-profile").authenticated()
+                .anyRequest().authenticated()
+            )
+            .httpBasic();
 
-     return http.build();
-	}
+        return http.build();
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

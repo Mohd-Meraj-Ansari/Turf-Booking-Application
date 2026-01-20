@@ -34,7 +34,6 @@ const RegisterPage = () => {
       console.log("Backend Response:", response.data);
       alert("User registered successfully!");
 
-      // ✅ Redirect to login page after success
       navigate("/login");
     } catch (error) {
       console.error("Error:", error);
@@ -120,7 +119,7 @@ const RegisterPage = () => {
             Register
           </button>
         </form>
- <p className="text-center mt-3">
+        <p className="text-center mt-3">
           Already have an account? <a href="/login">Login here</a>
         </p>
       </div>

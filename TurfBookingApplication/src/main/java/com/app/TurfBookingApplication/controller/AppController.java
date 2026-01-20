@@ -13,76 +13,69 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.app.TurfBookingApplication.dto.TurfRequestDTO;
 import com.app.TurfBookingApplication.dto.TurfResponseDTO;
 import com.app.TurfBookingApplication.dto.UpdateUserRequestDTO;
 import com.app.TurfBookingApplication.dto.UserRequestDTO;
 import com.app.TurfBookingApplication.dto.UserResponseDTO;
 import com.app.TurfBookingApplication.entity.Turf;
-import com.app.TurfBookingApplication.security.AuthService;
-import com.app.TurfBookingApplication.service.UserService;
 
+import com.app.TurfBookingApplication.service.UserService;
 
 @RestController
 @RequestMapping("/api/users")
 public class AppController {
 	private final UserService userService;
-	private final AuthService authService;
 
-    public AppController(UserService userService, AuthService authService) {
-        this.userService = userService;
-		this.authService = authService;
-    }
-    
-    private static final Logger logger=Logger.getLogger(AppController.class); // create logger for this class
+	public AppController(UserService userService) {
+		this.userService = userService;
+	}
 
-	    @PostMapping("/register")       // register endpoint to register users
-	    public ResponseEntity<UserResponseDTO> registerUser(      // accepts request dto and returns response dto
-	            @RequestBody UserRequestDTO request) {
+	private static final Logger logger = Logger.getLogger(AppController.class); // create logger for this class
 
-	        UserResponseDTO response = userService.createUser(request);   // calls createUser in service class
-	        logger.info("request received in controller to create user"); // log request 
-	        return ResponseEntity.status(HttpStatus.CREATED).body(response);  // returns response
-	    }
+	@PostMapping("/register") // register endpoint to register users
+	public ResponseEntity<UserResponseDTO> registerUser( // accepts request dto and returns response dto
+			@RequestBody UserRequestDTO request) {
 
-	    @GetMapping("/all")  // all endpoint to retrive all users
-	    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {  // returns list of user response dto 
-	    		logger.info("request received in controller to get all users"); //log request
-	        List<UserResponseDTO> users = userService.getAllUsers();   // calls getAllusers of userService class
-	        return ResponseEntity.ok(users); // returns list of users
-	    }
-	    
-	    @PutMapping("/update-profile")  // endpoint to update details
-	    public ResponseEntity<UserResponseDTO> updateMyProfile(
-	            @RequestBody UpdateUserRequestDTO request,
-	            Authentication authentication) {
-	    		
-	    		logger.info("request received in controller to update details"); //log into file 
-	        String loggedInEmail = authentication.getName();   //get currently logged-in user
+		UserResponseDTO response = userService.createUser(request); // calls createUser in service class
+		logger.info("request received in controller to create user"); // log request
+		return ResponseEntity.status(HttpStatus.CREATED).body(response); // returns response
+	}
 
-	        UserResponseDTO response =
-	                userService.updateMyProfile(request, loggedInEmail); // call method in userimplementation class
+	@GetMapping("/all") // all endpoint to retrive all users
+	public ResponseEntity<List<UserResponseDTO>> getAllUsers() { // returns list of user response dto
+		logger.info("request received in controller to get all users"); // log request
+		List<UserResponseDTO> users = userService.getAllUsers(); // calls getAllusers of userService class
+		return ResponseEntity.ok(users); // returns list of users
+	}
 
-	        return ResponseEntity.ok(response); // return response
-	    }
+	@PutMapping("/update-profile") // endpoint to update details
+	public ResponseEntity<UserResponseDTO> updateMyProfile(@RequestBody UpdateUserRequestDTO request,
+			Authentication authentication) {
 
-//	    @PostMapping //endpoint to add turf
-//	    public ResponseEntity<TurfResponseDTO> addTurf(@Validated @RequestBody TurfRequestDTO dto) {
-//
-//	    	Long adminId = authService.getLoggedInUserId();  //get currently logged in user from authservice
-//
-//	        Turf turf = userService.addTurf(dto, adminId); //call addturf in userservice
-//
-//	        TurfResponseDTO response = TurfResponseDTO.builder() //turf into turfResponseDTO
-//	                .id(turf.getId())
-//	                .turfName(turf.getTurfName())
-//	                .turfType(turf.getTurfType())
-//	                .location(turf.getLocation())
-//	                .pricePerHour(turf.getPricePerHour())
-//	                .ownerId(turf.getOwner().getId())
-//	                .build();
-//
-//	        return ResponseEntity.ok(response); // return dto
-//	    }
+		logger.info("request received in controller to update details"); // log into file
+		String loggedInEmail = authentication.getName(); // get currently logged-in user
+
+		UserResponseDTO response = userService.updateMyProfile(request, loggedInEmail); // call method in
+																						// userimplementation class
+
+		return ResponseEntity.ok(response); // return response
+	}
+
+	@PostMapping("/add-turf") // endpoint to add turf
+	public ResponseEntity<TurfResponseDTO> addTurf(@Validated @RequestBody TurfRequestDTO dto) {
+
+		logger.info("request received in controller to add turf");
+		Turf turf = userService.addTurf(dto); // call addturf in userservice
+
+		TurfResponseDTO response = TurfResponseDTO.builder() // turf into turfResponseDTO
+				.id(turf.getId())
+				.turfName(turf.getTurfName())
+				.location(turf.getLocation())
+				.pricePerHour(turf.getPricePerHour())
+				.ownerId(turf.getOwner().getId())
+				.build();
+
+		return ResponseEntity.ok(response); // return dto
+	}
 }
