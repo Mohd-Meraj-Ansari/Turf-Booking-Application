@@ -1,10 +1,6 @@
 package com.app.TurfBookingApplication.entity;
 
-import com.app.TurfBookingApplication.enums.TurfType;
-
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,9 +28,6 @@ public class Turf {
 	    private Long id;
 
 	    private String turfName;
-
-	    @Enumerated(EnumType.STRING)
-	    private TurfType turfType;
 
 	    private String location;
 	    

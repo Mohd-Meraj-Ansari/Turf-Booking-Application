@@ -1,9 +1,5 @@
 package com.app.TurfBookingApplication.dto;
 
-import java.util.List;
-
-import com.app.TurfBookingApplication.enums.TurfType;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +13,6 @@ public class TurfResponseDTO {
 
 	  private Long id;
 	    private String turfName;
-	    private TurfType turfType;
 	    private String location;
 	    private Double pricePerHour;
 	    private Long ownerId;

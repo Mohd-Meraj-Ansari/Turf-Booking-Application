@@ -18,6 +18,7 @@ public interface UserService {
             UpdateUserRequestDTO request,
             String loggedInEmail);
     
-    Turf addTurf(TurfRequestDTO dto, Long adminId);
+
+	Turf addTurf(TurfRequestDTO dto);
     
 }

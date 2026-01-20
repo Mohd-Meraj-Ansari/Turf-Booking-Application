@@ -3,6 +3,8 @@ package com.app.TurfBookingApplication.service;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -96,31 +98,37 @@ public class UserServiceImplementation implements UserService {
 				.role(updatedUser.getRole()).build();
 	}
 
-	@Override
-	public Turf addTurf(TurfRequestDTO dto, Long adminId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+	private Long getLoggedInUserId() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();  // from basic auth
 
-//	@Transactional //multiple operations in db
-//	@Override
-//	public Turf addTurf(TurfRequestDTO dto , Long adminId) {
-//
-//		turfRepository.findByAdminId(adminId).ifPresent(t -> {      //if admin already has one turf
-//			throw new RuntimeException("Admin already owns a turf");
-//		});
-//
-//		User owner = userRepository.findById(adminId).orElseThrow(() -> new RuntimeException("Admin not found")); // if admin does not exist
-//
-//		Turf turf = Turf.builder()  // if not then create turf entity
-//				.turfName(dto.getTurfName())
-//				.turfType(dto.getTurfType())
-//				.location(dto.getLocation())
-//				.pricePerHour(dto.getPricePerHour())
-//				.owner(owner)
-//				.build();
-//
-//		return turfRepository.save(turf);  //return turf
-//	}
+        return userRepository.findByEmail(email)
+                .map(User::getId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    @Override
+    public Turf addTurf(TurfRequestDTO dto) {
+    		logger.info("request received in service to add turf");
+
+        Long adminId = getLoggedInUserId();  
+
+        turfRepository.findById(adminId)
+                .ifPresent(t -> { throw new RuntimeException("Admin already owns a turf"); });
+
+        User owner = userRepository.findById(adminId)
+                .orElseThrow(() -> new RuntimeException("Admin not found"));
+
+        Turf turf = Turf.builder()
+                .turfName(dto.getTurfName())
+                .location(dto.getLocation())
+                .pricePerHour(dto.getPricePerHour())
+                .owner(owner)
+                .build();
+
+        return turfRepository.save(turf);
+    }
+
 
 }
