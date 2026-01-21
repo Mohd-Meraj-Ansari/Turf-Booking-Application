@@ -42,8 +42,8 @@ public class AppController {
 	public ResponseEntity<UserResponseDTO> registerUser( // accepts request dto and returns response dto
 			@RequestBody UserRequestDTO request) {
 
-		UserResponseDTO response = userService.createUser(request); // calls createUser in service class
 		logger.info("request received in controller to create user"); // log request
+		UserResponseDTO response = userService.createUser(request); // calls createUser in service class
 		return ResponseEntity.status(HttpStatus.CREATED).body(response); // returns response
 	}
 

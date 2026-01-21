@@ -58,7 +58,10 @@ public class UserServiceImplementation implements UserService {
 		User savedUser = userRepository.save(user); // save entity in database
 
 		if (savedUser.getRole() == UserRole.CLIENT) { // if userRole is client, create wallet
-			Wallet wallet = Wallet.builder().client(savedUser).balance(0.0).build();
+			Wallet wallet = Wallet.builder()
+					.client(savedUser)
+					.balance(0.0) //default balance while new client is added
+					.build();
 			walletRepository.save(wallet); // save wallet with default balance
 		}
 
