@@ -20,7 +20,8 @@ public class AccessoryRequestDTO {
     @NotNull(message = "Price per hour is required")
     @Positive(message = "Price per hour must be greater than 0")
     private Double pricePerHour;
+    
+    @Positive(message = "quantity must be greater than 0")
+    private Integer quantity;
 
-    @NotNull(message = "Turf ID is required")
-    private Long turfId;
 }

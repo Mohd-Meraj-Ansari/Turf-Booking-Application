@@ -22,7 +22,7 @@ public class Accessory {
     private Long id;
 
     private String accessoryName;
-
+    private Integer quantity;
     private Double pricePerHour;
 
     @ManyToOne
