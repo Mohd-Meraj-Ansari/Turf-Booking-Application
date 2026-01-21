@@ -14,6 +14,5 @@ public class AccessoryResponseDTO {
     private Long id;
     private String accessoryName;
     private Double pricePerHour;
-    private Long turfId;
-    private String turfName; // optional extra info
+    private Integer quantity;
 }
