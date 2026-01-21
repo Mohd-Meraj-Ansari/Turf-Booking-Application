@@ -13,22 +13,27 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.app.TurfBookingApplication.dto.TurfAvailabilityRequestDTO;
+import com.app.TurfBookingApplication.dto.TurfAvailabilityResponseDTO;
 import com.app.TurfBookingApplication.dto.TurfRequestDTO;
 import com.app.TurfBookingApplication.dto.TurfResponseDTO;
 import com.app.TurfBookingApplication.dto.UpdateUserRequestDTO;
 import com.app.TurfBookingApplication.dto.UserRequestDTO;
 import com.app.TurfBookingApplication.dto.UserResponseDTO;
 import com.app.TurfBookingApplication.entity.Turf;
-
+import com.app.TurfBookingApplication.service.TurfService;
 import com.app.TurfBookingApplication.service.UserService;
 
 @RestController
 @RequestMapping("/api/users")
 public class AppController {
 	private final UserService userService;
+	private final TurfService turfService;
 
-	public AppController(UserService userService) {
-		this.userService = userService;
+	public AppController(UserService userService, TurfService turfService) {
+	    this.userService = userService;
+	    this.turfService = turfService;
 	}
 
 	private static final Logger logger = Logger.getLogger(AppController.class); // create logger for this class
@@ -78,4 +83,17 @@ public class AppController {
 
 		return ResponseEntity.ok(response); // return dto
 	}
+	
+	@PostMapping("/availability/add")
+	public ResponseEntity<List<TurfAvailabilityResponseDTO>> addAvailability(
+	        @RequestBody List<TurfAvailabilityRequestDTO> request,
+	        Authentication authentication) {
+
+	    logger.info("request received in controller to add turf availability");
+	    
+	    return ResponseEntity.ok(turfService.addAvailability(request, authentication));
+	}
+
+
+	
 }
