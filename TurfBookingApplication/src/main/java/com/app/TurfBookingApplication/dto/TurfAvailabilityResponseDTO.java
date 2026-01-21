@@ -14,11 +14,12 @@ import lombok.Setter;
 @Builder
 public class TurfAvailabilityResponseDTO {
 
-    private Long id;
-    private Long turfId;
-    private String turfName;   // optional for client convenience
-    private DayOfWeek dayOfWeek;
-    private Boolean available;
-    private LocalTime openTime;
-    private LocalTime closeTime;
+	 private Long id;
+
+	    private Long turfId;
+	    private String turfName;
+	    private DayOfWeek dayOfWeek;
+	    private Boolean available;
+	    private LocalTime openTime;
+	    private LocalTime closeTime;
 }

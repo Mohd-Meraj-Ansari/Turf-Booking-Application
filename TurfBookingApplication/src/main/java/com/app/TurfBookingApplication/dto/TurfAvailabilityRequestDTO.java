@@ -11,13 +11,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class TurfAvailabilityRequestDTO {
-
-    @NotNull(message = "Turf ID is required")
-    private Long turfId;
 
     @NotNull(message = "Day of week is required")
     private DayOfWeek dayOfWeek;
@@ -25,15 +24,23 @@ public class TurfAvailabilityRequestDTO {
     @NotNull(message = "Availability status is required")
     private Boolean available;
 
-    @NotNull(message = "Open time is required")
     private LocalTime openTime;
 
-    @NotNull(message = "Close time is required")
     private LocalTime closeTime;
+
+    @AssertTrue(message = "Open and close time are required if available is true")
+    public boolean isTimeRequiredWhenAvailable() {
+        if (Boolean.TRUE.equals(available)) {
+            return openTime != null && closeTime != null;
+        }
+        return true; // no time required when unavailable
+    }
 
     @AssertTrue(message = "Close time must be after open time")
     public boolean isValidTimeRange() {
-        if (openTime == null || closeTime == null) return true;
-        return closeTime.isAfter(openTime);
+        if (Boolean.TRUE.equals(available) && openTime != null && closeTime != null) {
+            return closeTime.isAfter(openTime);
+        }
+        return true;
     }
 }
