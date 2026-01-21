@@ -8,15 +8,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class WalletResponseDTO {
 
-    private Long id;
-    private Long clientId;
-    private String clientName;   // optional for convenience
-    private Double balance;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+	private Long walletId;
+	private Long clientId;
+	private String clientName;
+	private Double balance;
+	private String message;
 }
