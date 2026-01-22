@@ -1,129 +1,155 @@
+import { useFormik } from "formik";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./RegisterPage.css";
-import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import "../styles/RegisterPage.css";
+import { registerValidation } from "../validation/registerValidation";
 
 const RegisterPage = () => {
-  const [formData, setFormData] = useState({
+  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+
+  const registerUserObj = {
     name: "",
     email: "",
     password: "",
     role: "",
-  });
-
-  const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // console.log("User Registered:", formData);
+  const { errors, values, touched, handleBlur, handleSubmit, handleChange } =
+    useFormik({
+      initialValues: registerUserObj,
+      validationSchema: registerValidation,
+      onSubmit: () => {
+        saveData();
+      },
+    });
+
+  async function saveData() {
     try {
-      const response = await axios.post(
-        "http://localhost:8086/api/users/register",
-        formData
-      );
+      const response = await fetch("http://localhost:8086/api/users/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
 
-      console.log("Backend Response:", response.data);
-      alert("User registered successfully!");
+      if (response.ok) {
+        const data = await response.json();
 
-      navigate("/login");
+        localStorage.setItem("username", values.name);
+        localStorage.setItem("password", values.password);
+        localStorage.setItem("role", data.role);
+
+        alert("Registration successful!");
+        navigate("/login");
+      } else {
+        alert("Invalid username or password");
+      }
     } catch (error) {
-      console.error("Error:", error);
-      alert("Registration failed!");
+      console.error("Error submitting the form", error);
     }
-  };
+  }
 
   return (
-    <div className="register-container d-flex justify-content-center align-items-center">
-      <div className="card p-4 shadow" style={{ width: "25rem" }}>
-        <h3 className="text-center mb-3">Register User</h3>
+    <>
+      {/* Navbar */}
+      <nav className="auth-navbar">
+        <div className="logo">
+          <span className="logo-badge">Logo</span>
+          <span className="logo-text">App Name</span>
+        </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label className="form-label">Full Name</label>
+        <div className="nav-links">
+          <Link to="/">Home</Link>
+          <Link to="/turfs">demo Link</Link>
+          <Link to="/login">Login</Link>
+        </div>
+      </nav>
+
+      {/* Register Card */}
+      <div className="auth-container">
+        <div className="auth-card">
+          <h2>Sign Up</h2>
+
+          <form onSubmit={handleSubmit}>
+            {/* Name */}
+            <label>Name</label>
             <input
               type="text"
-              className="form-control"
-              placeholder="Enter full name"
               name="name"
-              value={formData.name}
+              placeholder="User Name"
+              value={values.name}
               onChange={handleChange}
               required
+              onBlur={handleBlur}
             />
-          </div>
+            {touched.name && errors.name && (
+              <span className="error">{errors.name}</span>
+            )}
 
-          <div className="mb-3">
-            <label className="form-label">Email Address</label>
+            {/* Email */}
+            <label>Email</label>
             <input
               type="email"
-              className="form-control"
-              placeholder="Enter email"
               name="email"
-              value={formData.email}
+              placeholder="email"
+              value={values.email}
               onChange={handleChange}
-              required
+              onBlur={handleBlur}
             />
-          </div>
+            {touched.email && errors.email && (
+              <span className="error">{errors.email}</span>
+            )}
 
-          <div className="mb-3">
-            <label className="form-label">Password</label>
-
-            <div className="input-group">
+            {/* Password */}
+            <label>Password</label>
+            <div className="password-box">
               <input
                 type={showPassword ? "text" : "password"}
-                className="form-control"
-                placeholder="Enter password"
                 name="password"
-                value={formData.password}
+                placeholder="password"
+                value={values.password}
                 onChange={handleChange}
-                required
+                onBlur={handleBlur}
               />
-
               <button
                 type="button"
-                className="btn btn-outline-secondary"
-                onClick={() => setShowPassword((prev) => !prev)}
+                onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? "Hide" : "Show"}
               </button>
             </div>
-          </div>
+            {touched.password && errors.password && (
+              <span className="error">{errors.password}</span>
+            )}
 
-          {/* Role */}
-          <div className="mb-3">
-            <label className="form-label">Select Role</label>
+            {/* Role */}
+            <label>Role</label>
             <select
-              className="form-select"
               name="role"
-              value={formData.role}
+              value={values.role}
               onChange={handleChange}
-              required
+              onBlur={handleBlur}
             >
               <option value="">-- Choose Role --</option>
               <option value="CLIENT">Client</option>
               <option value="ADMIN">Admin</option>
               <option value="ADVERTISER">Advertiser</option>
             </select>
-          </div>
+            {touched.role && errors.role && (
+              <span className="error">{errors.role}</span>
+            )}
 
-          {/* Submit */}
-          <button type="submit" className="btn btn-primary w-100">
-            Register
-          </button>
-        </form>
-        <p className="text-center mt-3">
-          Already have an account? <a href="/login">Login here</a>
-        </p>
+            <button type="submit" className="auth-btn">
+              Sign Up
+            </button>
+          </form>
+
+          <p className="auth-footer">
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
