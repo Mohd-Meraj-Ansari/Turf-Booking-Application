@@ -28,6 +28,7 @@ public class SecurityConfig {
 	                .requestMatchers(HttpMethod.GET, "/api/users/all").permitAll()
 	                .requestMatchers(HttpMethod.POST, "/api/users/add-turf").hasRole("ADMIN")
 	                .requestMatchers(HttpMethod.PUT, "/api/users/update-profile").authenticated()
+	                .requestMatchers("/api/users/login", "/api/users/register").permitAll()
 	                .requestMatchers("/api/accessories/**").authenticated()
 	                .anyRequest().authenticated()
 	        )

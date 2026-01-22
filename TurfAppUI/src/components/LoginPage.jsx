@@ -1,6 +1,7 @@
 import { useState } from "react";
-import "./LoginPage.css";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./LoginPage.css";
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ const LoginPage = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,18 +24,13 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8086/api/users/login", // TurfBooking backend login API
+        "http://localhost:8086/api/users/login",
         formData
       );
 
       console.log("Backend Response:", response.data);
       alert("Login successful!");
-
-      // Example: store token if backend sends one
-      // localStorage.setItem("token", response.data.token);
-
-      // Redirect to dashboard/home page
-      // window.location.href = "/dashboard";
+      navigate("/");
     } catch (error) {
       console.error("Error:", error);
       alert("Login failed!");
@@ -41,60 +38,68 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="login-container d-flex justify-content-center align-items-center">
-      <div className="card p-4 shadow" style={{ width: "25rem" }}>
-        <h3 className="text-center mb-3">Turf Booking Login</h3>
+    <>
+      {/* Navbar */}
+      <nav className="auth-navbar">
+        <div className="logo">
+          <span className="logo-badge">Logo</span>
+          <span className="logo-text">App Name</span>
+        </div>
 
-        <form onSubmit={handleSubmit}>
-          {/* Email */}
-          <div className="mb-3">
-            <label className="form-label">Email Address</label>
+        <div className="nav-links">
+          <Link to="/">Home</Link>
+          <Link to="/turfs">demo Link</Link>
+          <Link to="/register">Register</Link>
+        </div>
+      </nav>
+
+      {/* Login Card */}
+      <div className="auth-container">
+        <div className="auth-card">
+          <h2>Login</h2>
+
+          <form onSubmit={handleSubmit}>
+            {/* Email */}
+            <label>Email</label>
             <input
               type="email"
-              className="form-control"
-              placeholder="Enter email"
               name="email"
+              placeholder="email"
               value={formData.email}
               onChange={handleChange}
               required
             />
-          </div>
 
-          {/* Password */}
-          <div className="mb-3">
-            <label className="form-label">Password</label>
-            <div className="input-group">
+            {/* Password */}
+            <label>Password</label>
+            <div className="password-box">
               <input
                 type={showPassword ? "text" : "password"}
-                className="form-control"
-                placeholder="Enter password"
                 name="password"
+                placeholder="password"
                 value={formData.password}
                 onChange={handleChange}
                 required
               />
               <button
                 type="button"
-                className="btn btn-outline-secondary"
                 onClick={() => setShowPassword((prev) => !prev)}
               >
                 {showPassword ? "Hide" : "Show"}
               </button>
             </div>
-          </div>
 
-          {/* Submit */}
-          <button type="submit" className="btn btn-primary w-100">
-            Login
-          </button>
-        </form>
+            <button type="submit" className="auth-btn">
+              Login
+            </button>
+          </form>
 
-        {/* Link to Register */}
-        <p className="text-center mt-3">
-          Don’t have an account? <a href="/register">Register here</a>
-        </p>
+          <p className="auth-footer">
+            Don’t have an account? <Link to="/register">Sign Up</Link>
+          </p>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
