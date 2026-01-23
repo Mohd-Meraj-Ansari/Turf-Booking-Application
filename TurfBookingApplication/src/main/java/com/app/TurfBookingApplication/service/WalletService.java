@@ -6,5 +6,7 @@ public interface WalletService {
 
     WalletResponseDTO addBalance(Double amount, String loggedInEmail);
 
+	WalletResponseDTO getBalance(String email);
+
 }
 

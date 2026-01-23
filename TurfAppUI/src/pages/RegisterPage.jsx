@@ -40,7 +40,7 @@ const RegisterPage = () => {
         localStorage.setItem("role", data.role);
 
         alert("Registration successful!");
-        navigate("/login");
+        navigate("/client/dashboard");
       } else {
         alert("Invalid username or password");
       }

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 import "./LoginPage.css";
 
 const LoginPage = () => {
@@ -10,6 +11,8 @@ const LoginPage = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const { login } = useAuth(); // ✅ FIX
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,24 +25,43 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const response = await axios.post(
         "http://localhost:8086/api/users/login",
-        formData
+        formData,
       );
 
-      console.log("Backend Response:", response.data);
-      alert("Login successful!");
-      navigate("/");
+      // ✅ Store auth in memory (AuthContext)
+      login({
+        email: formData.email,
+        password: formData.password,
+        role: response.data.role,
+        name: response.data.name,
+      });
+
+      // Optional UI persistence (NO password)
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("role", response.data.role);
+      localStorage.setItem("clientName", response.data.name);
+      localStorage.setItem("email", formData.email);
+
+      // Navigation
+      if (response.data.role === "CLIENT") {
+        navigate("/client/dashboard");
+      } else if (response.data.role === "ADMIN") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Login failed:", error);
       alert("Login failed!");
     }
   };
 
   return (
     <>
-      {/* Navbar */}
       <nav className="auth-navbar">
         <div className="logo">
           <span className="logo-badge">Logo</span>
@@ -53,30 +75,25 @@ const LoginPage = () => {
         </div>
       </nav>
 
-      {/* Login Card */}
       <div className="auth-container">
         <div className="auth-card">
           <h2>Login</h2>
 
           <form onSubmit={handleSubmit}>
-            {/* Email */}
             <label>Email</label>
             <input
               type="email"
               name="email"
-              placeholder="email"
               value={formData.email}
               onChange={handleChange}
               required
             />
 
-            {/* Password */}
             <label>Password</label>
             <div className="password-box">
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="password"
                 value={formData.password}
                 onChange={handleChange}
                 required
