@@ -67,5 +67,24 @@ public class WalletServiceImplementation implements WalletService {
                 .message("Wallet updated successfully")
                 .build();
     }
+
+    @Override
+    public WalletResponseDTO getBalance(String loggedInEmail) {
+
+        User user = userRepository.findByEmail(loggedInEmail)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Wallet wallet = walletRepository.findByClient(user)
+                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+
+        return WalletResponseDTO.builder()
+                .walletId(wallet.getId())
+                .clientId(user.getId())
+                .clientName(user.getName())
+                .balance(wallet.getBalance())
+                .build();
+    }
+
+    
 }
 

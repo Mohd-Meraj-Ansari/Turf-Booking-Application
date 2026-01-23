@@ -1,0 +1,283 @@
+/* ===================== RESET ===================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+/* ===================== NAVBAR ===================== */
+
+.app-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 64px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #dee2e6;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 24px;
+  z-index: 1000;
+}
+
+.app-navbar .logo {
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.app-navbar .nav-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.app-navbar .nav-link:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.app-navbar .nav-link.active {
+  color: #0d6efd;
+}
+
+.logout-btn {
+  border: 1px solid #dc3545;
+  background-color: transparent;
+  color: #dc3545;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.logout-btn:hover {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+/* ===================== PAGE LAYOUT ===================== */
+
+.page-container {
+  width: 100%;
+  min-height: 100vh;
+
+  padding-top: 80px; /* space for fixed navbar */
+  padding-left: 24px;
+  padding-right: 24px;
+
+  background-color: #f8f9fa;
+}
+
+/* ===================== DASHBOARD CARDS ===================== */
+.dashboard-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.dashboard-card {
+  background-color: #ffffff;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+}
+
+.dashboard-card h4 {
+  font-size: 0.95rem;
+  color: #6c757d;
+  margin-bottom: 6px;
+}
+
+.dashboard-card p {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+/* ===================== TABLE / SECTION ===================== */
+
+.section {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #e9ecef;
+  margin-bottom: 24px;
+}
+
+.section h3 {
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+}
+
+/* ===================== UTILITIES ===================== */
+
+.text-center {
+  text-align: center;
+}
+
+.mt-1 {
+  margin-top: 8px;
+}
+.mt-2 {
+  margin-top: 16px;
+}
+.mt-3 {
+  margin-top: 24px;
+}
+
+.mb-1 {
+  margin-bottom: 8px;
+}
+.mb-2 {
+  margin-bottom: 16px;
+}
+.mb-3 {
+  margin-bottom: 24px;
+}
+
+/* ===================== SCROLLBAR (optional) ===================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+/* ===== WALLET PAGE ===== */
+
+.wallet-page {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* Balance Card */
+.balance-card {
+  background: linear-gradient(135deg, #0d6efd, #084298);
+  color: white;
+  padding: 20px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+}
+
+.balance-label {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.balance-card h1 {
+  margin-top: 6px;
+  font-size: 2rem;
+}
+
+/* Top Up Card */
+.topup-card {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid #e9ecef;
+}
+
+.topup-card h3 {
+  margin-bottom: 16px;
+}
+
+.topup-card label {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.topup-card input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ced4da;
+  margin-bottom: 14px;
+}
+
+/* Quick Amount Buttons */
+.quick-amounts {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.quick-amounts button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #0d6efd;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.quick-amounts button.active,
+.quick-amounts button:hover {
+  background-color: #0d6efd;
+  color: white;
+}
+
+/* Top Up Button */
+.topup-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.topup-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Messages */
+.success-text {
+  margin-top: 12px;
+  color: #198754;
+  font-weight: 500;
+}
+
+.error-text {
+  margin-top: 12px;
+  color: #dc3545;
+  font-weight: 500;
+}

@@ -27,5 +27,13 @@ public class WalletController {
 
         return ResponseEntity.ok(response);
     }
+    
+    @GetMapping("/balance")
+    public ResponseEntity<WalletResponseDTO> getBalance(Authentication authentication) {
+        String email = authentication.getName();
+        WalletResponseDTO response = walletService.getBalance(email);
+        return ResponseEntity.ok(response);
+    }
+
 }
 
