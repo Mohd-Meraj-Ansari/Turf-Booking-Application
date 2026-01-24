@@ -20,102 +20,93 @@ import com.app.TurfBookingApplication.security.CustomUserDetailsService;
 @Configuration
 public class SecurityConfig {
 
-    /* ===================== SECURITY FILTER ===================== */
+	/* ===================== SECURITY FILTER ===================== */
 
-    @Bean
-    public SecurityFilterChain filterChain(
-            HttpSecurity http,
-            DaoAuthenticationProvider authProvider
-    ) throws Exception {
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http, DaoAuthenticationProvider authProvider) throws Exception {
 
-        http
-            // Disable CSRF (API + React)
-            .csrf(csrf -> csrf.disable())
+		http
+				// Disable CSRF (API + React)
+				.csrf(csrf -> csrf.disable())
 
-            // Enable CORS INSIDE Spring Security
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+				// Enable CORS INSIDE Spring Security
+				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
-            // Authentication provider
-            .authenticationProvider(authProvider)
+				// Authentication provider
+				.authenticationProvider(authProvider)
 
-            // Authorization rules
-            .authorizeHttpRequests(auth -> auth
-                // Allow error handling
-                .requestMatchers("/error").permitAll()
+				// Authorization rules
+				.authorizeHttpRequests(auth -> auth
+						// Allow error handling
+						.requestMatchers("/error").permitAll()
 
-                // Allow preflight requests
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+						// Allow preflight requests
+						.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                // Public endpoints
-                .requestMatchers("/api/users/login", "/api/users/register").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/users/test").permitAll()
+						// Public endpoints
+						.requestMatchers("/api/users/login", "/api/users/register").permitAll()
+						.requestMatchers(HttpMethod.GET, "/api/users/test").permitAll()
+						.requestMatchers(HttpMethod.GET, "/api/accessories/available").permitAll()
 
-                // Admin-only
-                .requestMatchers(HttpMethod.POST, "/api/users/add-turf").hasRole("ADMIN")
+						// Admin-only
+						.requestMatchers(HttpMethod.POST, "/api/users/add-turf").hasRole("ADMIN")
+						.requestMatchers(HttpMethod.POST, "/api/accessories/add-multiple").hasRole("ADMIN")
 
-                // Client-only wallet top-up
-                .requestMatchers(HttpMethod.POST, "/api/wallet/add-balance").hasRole("CLIENT")
-                
-                .requestMatchers(HttpMethod.GET, "/api/wallet/balance").hasRole("CLIENT")
+						// Client-only wallet top-up
+						.requestMatchers(HttpMethod.POST, "/api/wallet/add-balance").hasRole("CLIENT")
 
-                // Everything else requires authentication
-                .anyRequest().authenticated()
-            )
+						.requestMatchers(HttpMethod.GET, "/api/wallet/balance").hasRole("CLIENT")
 
-            // BASIC AUTH
-            .httpBasic();
+						.requestMatchers(HttpMethod.POST, "/api/bookings/book").hasRole("CLIENT")
 
-        return http.build();
-    }
+						// Everything else requires authentication
+						.anyRequest().authenticated())
 
-    /* ===================== PASSWORD ENCODER ===================== */
+				// BASIC AUTH
+				.httpBasic();
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+		return http.build();
+	}
 
-    /* ===================== AUTH PROVIDER ===================== */
+	/* ===================== PASSWORD ENCODER ===================== */
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider(
-            CustomUserDetailsService userDetailsService,
-            PasswordEncoder passwordEncoder
-    ) {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder);
-        return provider;
-    }
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    /* ===================== CORS CONFIG (CRITICAL) ===================== */
+	/* ===================== AUTH PROVIDER ===================== */
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
+	@Bean
+	public DaoAuthenticationProvider authenticationProvider(CustomUserDetailsService userDetailsService,
+			PasswordEncoder passwordEncoder) {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setUserDetailsService(userDetailsService);
+		provider.setPasswordEncoder(passwordEncoder);
+		return provider;
+	}
 
-        // React frontend
-        config.setAllowedOrigins(List.of("http://localhost:5173"));
+	/* ===================== CORS CONFIG (CRITICAL) ===================== */
 
-        // HTTP methods
-        config.setAllowedMethods(List.of(
-                "GET", "POST", "PUT", "DELETE", "OPTIONS"
-        ));
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration config = new CorsConfiguration();
 
-        // MUST explicitly allow Authorization header
-        config.setAllowedHeaders(List.of(
-                "Authorization",
-                "Content-Type",
-                "X-Requested-With"
-        ));
+		// React frontend
+		config.setAllowedOrigins(List.of("http://localhost:5173"));
 
-        // Required for Basic Auth
-        config.setAllowCredentials(false);
+		// HTTP methods
+		config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
-        UrlBasedCorsConfigurationSource source =
-                new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+		// MUST explicitly allow Authorization header
+		config.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With"));
 
-        return source;
-    }
+		// Required for Basic Auth
+		config.setAllowCredentials(false);
+
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", config);
+
+		return source;
+	}
 }

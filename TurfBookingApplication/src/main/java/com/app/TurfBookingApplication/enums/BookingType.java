@@ -1,5 +1,5 @@
 package com.app.TurfBookingApplication.enums;
 
 public enum BookingType {
-	HOURLY, FULL_DAY
+	HOURLY, FULL_DAY, MULTI_DAY
 }

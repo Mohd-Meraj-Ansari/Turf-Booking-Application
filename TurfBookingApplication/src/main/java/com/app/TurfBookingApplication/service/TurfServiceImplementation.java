@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.app.TurfBookingApplication.dto.TurfAvailabilityRequestDTO;
 import com.app.TurfBookingApplication.dto.TurfAvailabilityResponseDTO;
+import com.app.TurfBookingApplication.dto.TurfResponseDTO;
 import com.app.TurfBookingApplication.entity.Turf;
 import com.app.TurfBookingApplication.entity.TurfAvailability;
 import com.app.TurfBookingApplication.entity.User;
@@ -67,5 +68,24 @@ public class TurfServiceImplementation implements TurfService {
                         .build())
                 .toList();
     }
+
+
+    @Override
+    public TurfResponseDTO getSingleTurf() {
+
+        Turf turf = turfRepository.findAll()
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Turf not found"));
+
+        return TurfResponseDTO.builder()
+                .id(turf.getId())
+                .turfName(turf.getTurfName())
+                .location(turf.getLocation())
+                .pricePerHour(turf.getPricePerHour())
+                .ownerId(turf.getOwner().getId())
+                .build();
+    }
+
 }
 

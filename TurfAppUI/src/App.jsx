@@ -10,6 +10,7 @@ import RegisterPage from "./pages/RegisterPage";
 
 import ClientDashboard from "./pages/ClientDashboard";
 import TopUpPage from "./pages/TopUpPage";
+import TurfBookingPage from "./pages/TurfBookingPage";
 
 function App() {
   return (
@@ -38,6 +39,16 @@ function App() {
             element={
               <ProtectedRoute allowedRole="CLIENT">
                 <TopUpPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/*TURF BOOKING (CLIENT ONLY) */}
+          <Route
+            path="/client/turf/book"
+            element={
+              <ProtectedRoute allowedRole="CLIENT">
+                <TurfBookingPage />
               </ProtectedRoute>
             }
           />

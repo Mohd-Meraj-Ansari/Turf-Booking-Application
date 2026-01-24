@@ -45,5 +45,10 @@ public class AccessoryController {
 
         return ResponseEntity.ok(accessoryService.addMultipleAccessories(accessories, authentication));
     }
+    
+    @GetMapping("/available")
+    public List<AccessoryResponseDTO> getAvailableAccessories() {
+        return accessoryService.getAvailableAccessories();
+    }
 }
 

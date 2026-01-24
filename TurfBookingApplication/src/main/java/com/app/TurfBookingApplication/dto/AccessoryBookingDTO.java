@@ -7,13 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
-@NoArgsConstructor 
-@AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 @Builder
-public class AccessoryResponseDTO {
+public class AccessoryBookingDTO {
 
-    private Long id;
-    private String accessoryName;
-    private Double pricePerHour;
+    private Long accessoryId;
     private Integer quantity;
 }
+

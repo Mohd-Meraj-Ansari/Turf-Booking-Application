@@ -27,6 +27,8 @@ public class BookingAccessory {
     @ManyToOne
     private Accessory accessory;
 
+    private Integer quantity;
+    
     private Integer hours;
     private Double cost;
 }

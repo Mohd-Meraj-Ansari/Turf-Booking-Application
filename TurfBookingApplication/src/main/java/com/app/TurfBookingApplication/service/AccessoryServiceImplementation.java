@@ -1,6 +1,7 @@
 package com.app.TurfBookingApplication.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -116,4 +117,26 @@ public class AccessoryServiceImplementation implements AccessoryService {
                         .build())
                 .toList();
     }
+
+
+
+	
+		 @Override
+		    public List<AccessoryResponseDTO> getAvailableAccessories() {
+
+		        return accessoryRepository.findAll()
+		                .stream()
+		                .map(this::toDTO)
+		                .collect(Collectors.toList());
+		    
+	}
+		 private AccessoryResponseDTO toDTO(Accessory accessory) {
+			    return new AccessoryResponseDTO(
+			    		 	 accessory.getId(),              
+			             accessory.getAccessoryName(),   
+			             accessory.getPricePerHour(),    
+			             accessory.getQuantity()     
+			    );
+			}
 }
+
