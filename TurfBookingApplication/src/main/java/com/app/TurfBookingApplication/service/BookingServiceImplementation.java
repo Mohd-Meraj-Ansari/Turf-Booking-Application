@@ -2,6 +2,7 @@ package com.app.TurfBookingApplication.service;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import com.app.TurfBookingApplication.entity.User;
 import com.app.TurfBookingApplication.entity.Wallet;
 import com.app.TurfBookingApplication.enums.BookingStatus;
 import com.app.TurfBookingApplication.enums.BookingType;
+import com.app.TurfBookingApplication.enums.CancelledBy;
 import com.app.TurfBookingApplication.enums.UserRole;
 import com.app.TurfBookingApplication.repository.AccessoryRepository;
 import com.app.TurfBookingApplication.repository.BookingAccessoryRepository;
@@ -48,14 +50,11 @@ public class BookingServiceImplementation implements BookingService {
     private final AccessoryRepository accessoryRepository;
     private final BookingAccessoryRepository bookingAccessoryRepository;
     private final WalletRepository walletRepository;
-
+   
     private static final LocalTime PEAK_START_TIME = LocalTime.of(18, 0);
-    private static final double PEAK_MULTIPLIER = 1.5; // ✅ 50% extra
+    private static final double PEAK_MULTIPLIER = 1.5; // 50% extra
 
-    /* =====================================================
-       PUBLIC API
-    ===================================================== */
-
+   
     @Override
     public BookingResponseDTO bookTurf(
             BookingRequestDTO request,
@@ -79,6 +78,10 @@ public class BookingServiceImplementation implements BookingService {
 
         List<BookingAccessory> accessories =
                 calculateAccessories(request, bookingHours);
+        
+        double accessoriesTotal = accessories.stream()
+                .mapToDouble(BookingAccessory::getCost)
+                .sum();
 
         double totalAmount =
                 turfAmount + accessories.stream().mapToDouble(BookingAccessory::getCost).sum();
@@ -86,19 +89,25 @@ public class BookingServiceImplementation implements BookingService {
         double advanceAmount =
                 processWalletAdvance(client, totalAmount);
 
-        Booking booking =
-                saveBooking(client, turf, window, bookingType,
-                        bookingHours, totalAmount, advanceAmount);
+        Booking booking = saveBooking(
+                client,
+                turf,
+                window,
+                bookingType,
+                bookingHours,
+                bookingDays,
+                turfAmount,
+                accessoriesTotal,
+                advanceAmount
+        );
 
         saveBookingAccessories(accessories, booking);
 
         return buildResponse(booking, turf);
     }
 
-    /* =====================================================
-       AUTH & BASIC FETCH
-    ===================================================== */
-
+   
+    //fetch client
     private User getLoggedInClient(Authentication authentication) {
         User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -114,10 +123,8 @@ public class BookingServiceImplementation implements BookingService {
                 .orElseThrow(() -> new RuntimeException("Turf not found"));
     }
 
-    /* =====================================================
-       BOOKING WINDOW
-    ===================================================== */
-
+   
+    //booking window
     @Getter
     @AllArgsConstructor
     private static class BookingWindow {
@@ -191,10 +198,8 @@ public class BookingServiceImplementation implements BookingService {
         );
     }
 
-    /* =====================================================
-       AVAILABILITY & OVERLAP
-    ===================================================== */
-
+   
+    //check availability/overlap
     private TurfAvailability validateAvailability(
             Turf turf,
             BookingType type,
@@ -206,7 +211,7 @@ public class BookingServiceImplementation implements BookingService {
         	     !date.isAfter(window.getEndDate());
         	     date = date.plusDays(1)) {
 
-        	    final LocalDate bookingDate = date; // ✅ make it effectively final
+        	    final LocalDate bookingDate = date;
 
         	    TurfAvailability availability =
         	            turfAvailabilityRepository
@@ -243,10 +248,8 @@ public class BookingServiceImplementation implements BookingService {
         return firstDayAvailability;
     }
 
-    /* =====================================================
-       DAYS & HOURS
-    ===================================================== */
-
+   
+    //calculate days/hours
     private int calculateBookingDays(
             BookingType type,
             BookingWindow window) {
@@ -280,10 +283,8 @@ public class BookingServiceImplementation implements BookingService {
         return dailyHours * calculateBookingDays(type, window);
     }
 
-    /* =====================================================
-       PRICING (50% PEAK AFTER 6 PM)
-    ===================================================== */
-
+   
+    //calculate turf amount
     private double calculateTurfAmount(
             BookingType type,
             Turf turf,
@@ -326,10 +327,8 @@ public class BookingServiceImplementation implements BookingService {
         return total;
     }
 
-    /* =====================================================
-       ACCESSORIES
-    ===================================================== */
-
+   
+    //accessory
     private List<BookingAccessory> calculateAccessories(
             BookingRequestDTO request,
             int bookingHours) {
@@ -374,13 +373,11 @@ public class BookingServiceImplementation implements BookingService {
         }
     }
 
-    /* =====================================================
-       WALLET
-    ===================================================== */
-
+    
+    //wallet
     private double processWalletAdvance(User client, double totalAmount) {
 
-        double advanceAmount = totalAmount * 0.30;
+        double advanceAmount = totalAmount * 0.50;  //50% advance
 
         Wallet wallet = walletRepository.findByClient(client)
                 .orElseThrow(() -> new RuntimeException("Wallet not found"));
@@ -394,18 +391,19 @@ public class BookingServiceImplementation implements BookingService {
         return advanceAmount;
     }
 
-    /* =====================================================
-       BOOKING & RESPONSE
-    ===================================================== */
-
+    
+    //save booking
     private Booking saveBooking(
             User client,
             Turf turf,
             BookingWindow window,
-            BookingType type,
+            BookingType bookingType,
             int bookingHours,
-            double totalAmount,
-            double advanceAmount) {
+            int bookingDays,
+            double turfAmount,
+            double accessoriesTotal,
+            double advanceAmount
+    ) {
 
         Booking booking = Booking.builder()
                 .client(client)
@@ -414,15 +412,19 @@ public class BookingServiceImplementation implements BookingService {
                 .endDate(window.getEndDate())
                 .startTime(window.getStartTime())
                 .endTime(window.getEndTime())
-                .bookingType(type)
+                .bookingType(bookingType)
                 .totalHours(bookingHours)
-                .totalAmount(totalAmount)
+                .totalDays(bookingDays)
+                .basePrice(turf.getPricePerHour())     
+                .accessoriesTotal(accessoriesTotal) 
+                .totalAmount(turfAmount + accessoriesTotal)
                 .advanceAmount(advanceAmount)
                 .status(BookingStatus.BOOKED)
                 .build();
 
         return bookingRepository.save(booking);
     }
+
 
     private BookingResponseDTO buildResponse(
             Booking booking,
@@ -461,4 +463,107 @@ public class BookingServiceImplementation implements BookingService {
                 .status(booking.getStatus())
                 .build();
     }
+
+
+    //get booking history
+    @Override
+    public List<BookingResponseDTO> getPastBookings(Authentication authentication) {
+
+        User client = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (client.getRole() != UserRole.CLIENT) {
+            throw new RuntimeException("Only clients can view bookings");
+        }
+
+        List<Booking> bookings =
+                bookingRepository.findAllBookingsByClient(client);
+
+        return bookings.stream()
+                .map(b -> BookingResponseDTO.builder()
+                        .bookingid(b.getId())
+                        .turfId(b.getTurf().getId())
+                        .turfName(b.getTurf().getTurfName())
+                        .bookingDate(b.getStartDate())
+                        .startDate(b.getStartDate())
+                        .endDate(b.getEndDate())
+                        .startTime(b.getStartTime())
+                        .endTime(b.getEndTime())
+                        .totalAmount(b.getTotalAmount())
+                        .advanceAmount(b.getAdvanceAmount())
+                        .status(b.getStatus())
+                        .build()
+                )
+                .toList();
+    }
+
+    //cancel booking
+    @Override
+    public void cancelBooking(Long bookingId, Authentication authentication) {
+
+        User client = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (client.getRole() != UserRole.CLIENT) {
+            throw new RuntimeException("Only clients can cancel bookings");
+        }
+
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        // ownership check
+        if (!booking.getClient().getId().equals(client.getId())) {
+            throw new RuntimeException("You cannot cancel this booking");
+        }
+
+        if (booking.getStatus() == BookingStatus.CANCELLED) {
+            throw new RuntimeException("Booking already cancelled");
+        }
+
+        //time calculation
+        LocalDateTime now = LocalDateTime.now();
+
+        LocalTime startTime = booking.getStartTime() != null
+                ? booking.getStartTime()
+                : LocalTime.MIDNIGHT; // for fullday/multiday
+
+        LocalDateTime bookingStart =
+                LocalDateTime.of(booking.getStartDate(), startTime);
+
+        if (bookingStart.isBefore(now)) {
+            throw new RuntimeException("Past bookings cannot be cancelled");
+        }
+
+        long hoursBeforeStart =
+                ChronoUnit.HOURS.between(now, bookingStart);
+
+        //calculate refund
+        double advanceAmount = booking.getAdvanceAmount();
+        double refundPercentage;
+
+        if (hoursBeforeStart >= 24) {
+            refundPercentage = 1.0;     // 100% refund
+        } else if (hoursBeforeStart >= 12) {
+            refundPercentage = 0.5;     // 50% refund
+        } else {
+            refundPercentage = 0.4;     // 40% refund
+        }
+
+        double refundAmount = advanceAmount * refundPercentage;
+
+        //wallet refund
+        Wallet wallet = walletRepository.findByClient(client)
+                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+
+        wallet.setBalance(wallet.getBalance() + refundAmount);
+        walletRepository.save(wallet);
+
+        //update booking
+        booking.setStatus(BookingStatus.CANCELLED);
+        booking.setCancelledBy(CancelledBy.CLIENT);
+        bookingRepository.save(booking);
+    }
+
 }
+
+

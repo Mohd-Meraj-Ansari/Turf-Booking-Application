@@ -20,8 +20,6 @@ import com.app.TurfBookingApplication.security.CustomUserDetailsService;
 @Configuration
 public class SecurityConfig {
 
-	/* ===================== SECURITY FILTER ===================== */
-
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http, DaoAuthenticationProvider authProvider) throws Exception {
 
@@ -52,12 +50,18 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.POST, "/api/users/add-turf").hasRole("ADMIN")
 						.requestMatchers(HttpMethod.POST, "/api/accessories/add-multiple").hasRole("ADMIN")
 
-						// Client-only wallet top-up
+						// Client-only
 						.requestMatchers(HttpMethod.POST, "/api/wallet/add-balance").hasRole("CLIENT")
 
 						.requestMatchers(HttpMethod.GET, "/api/wallet/balance").hasRole("CLIENT")
 
 						.requestMatchers(HttpMethod.POST, "/api/bookings/book").hasRole("CLIENT")
+
+						.requestMatchers("/api/bookings/past").hasRole("CLIENT")
+
+						.requestMatchers("/api/bookings/cancel/**").hasRole("CLIENT")
+						
+						.requestMatchers("/api/client/dashboard/**").hasRole("CLIENT")
 
 						// Everything else requires authentication
 						.anyRequest().authenticated())
@@ -68,14 +72,10 @@ public class SecurityConfig {
 		return http.build();
 	}
 
-	/* ===================== PASSWORD ENCODER ===================== */
-
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
-	/* ===================== AUTH PROVIDER ===================== */
 
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider(CustomUserDetailsService userDetailsService,
@@ -85,8 +85,6 @@ public class SecurityConfig {
 		provider.setPasswordEncoder(passwordEncoder);
 		return provider;
 	}
-
-	/* ===================== CORS CONFIG (CRITICAL) ===================== */
 
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {

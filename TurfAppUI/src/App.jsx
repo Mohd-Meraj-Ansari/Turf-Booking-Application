@@ -11,6 +11,7 @@ import RegisterPage from "./pages/RegisterPage";
 import ClientDashboard from "./pages/ClientDashboard";
 import TopUpPage from "./pages/TopUpPage";
 import TurfBookingPage from "./pages/TurfBookingPage";
+import BookingHistoryPage from "./pages/BookingHistoryPage";
 
 function App() {
   return (
@@ -19,12 +20,12 @@ function App() {
 
       <div className="page-container">
         <Routes>
-          {/* PUBLIC */}
+          {/* public routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
-          {/* CLIENT */}
+          {/* client only routes */}
           <Route
             path="/client/dashboard"
             element={
@@ -33,7 +34,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-
+          {/* wallet */}
           <Route
             path="/client/wallet/topup"
             element={
@@ -43,12 +44,22 @@ function App() {
             }
           />
 
-          {/*TURF BOOKING (CLIENT ONLY) */}
+          {/*turf booking*/}
           <Route
             path="/client/turf/book"
             element={
               <ProtectedRoute allowedRole="CLIENT">
                 <TurfBookingPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* booking history */}
+          <Route
+            path="/client/bookings/history"
+            element={
+              <ProtectedRoute allowedRole="CLIENT">
+                <BookingHistoryPage />
               </ProtectedRoute>
             }
           />

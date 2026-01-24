@@ -1,4 +1,4 @@
-/* ===================== RESET ===================== */
+/*reset*/
 
 *,
 *::before,
@@ -17,7 +17,7 @@ body {
   color: #212529;
 }
 
-/* ===================== NAVBAR ===================== */
+/*navbar*/
 
 .app-navbar {
   position: fixed;
@@ -80,7 +80,7 @@ body {
   color: #ffffff;
 }
 
-/* ===================== PAGE LAYOUT ===================== */
+/*page layout */
 
 .page-container {
   width: 100%;
@@ -93,7 +93,7 @@ body {
   background-color: #f8f9fa;
 }
 
-/* ===================== DASHBOARD CARDS ===================== */
+/*dashboard cards*/
 .dashboard-wrapper {
   max-width: 1200px;
   margin: 0 auto;
@@ -124,7 +124,7 @@ body {
   font-weight: 600;
 }
 
-/* ===================== TABLE / SECTION ===================== */
+/*table/section*/
 
 .section {
   background-color: #ffffff;
@@ -139,7 +139,7 @@ body {
   font-size: 1.1rem;
 }
 
-/* ===================== UTILITIES ===================== */
+/*utilities*/
 
 .text-center {
   text-align: center;
@@ -165,7 +165,7 @@ body {
   margin-bottom: 24px;
 }
 
-/* ===================== SCROLLBAR (optional) ===================== */
+/*for scrollbar*/
 
 ::-webkit-scrollbar {
   width: 8px;
@@ -175,7 +175,7 @@ body {
   background-color: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 }
-/* ===== WALLET PAGE ===== */
+/*wallet page*/
 
 .wallet-page {
   max-width: 420px;
