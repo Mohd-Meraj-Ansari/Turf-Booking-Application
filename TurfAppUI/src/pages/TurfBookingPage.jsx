@@ -154,7 +154,7 @@ const TurfBookingPage = () => {
   }
 
   return (
-    <div className="container mt-4" style={{ maxWidth: "900px" }}>
+    <div className="container mt-4" style={{ maxWidth: "800px" }}>
       <div className="card shadow">
         <div className="card-body">
           {/* header */}

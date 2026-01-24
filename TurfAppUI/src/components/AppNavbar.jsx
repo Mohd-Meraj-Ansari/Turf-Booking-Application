@@ -52,6 +52,9 @@ const AppNavbar = () => {
             <NavLink to="/client/turf/book" className="nav-link">
               Book Turf
             </NavLink>
+            <NavLink to="/client/bookings/history" className="nav-link">
+              Booking History
+            </NavLink>
           </>
         )}
 

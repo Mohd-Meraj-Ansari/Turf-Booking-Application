@@ -21,38 +21,44 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Booking {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @ManyToOne
-    private User client;
+	@ManyToOne
+	private User client;
 
-    @ManyToOne
-    private Turf turf;
+	@ManyToOne
+	private Turf turf;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private LocalTime startTime;
-    private LocalTime endTime;
+	private LocalDate startDate;
+	private LocalDate endDate;
+	private LocalTime startTime;
+	private LocalTime endTime;
 
-    @Enumerated(EnumType.STRING)
-    private BookingType bookingType;
+	@Enumerated(EnumType.STRING)
+	private BookingType bookingType;
 
-    private Integer totalHours;
+	private Integer totalHours;
 
-    private Double totalAmount;
-    private Double advanceAmount;
+	private Double totalAmount;
+	private Double advanceAmount;
 
-    @Enumerated(EnumType.STRING)
-    private BookingStatus status;
+	@Enumerated(EnumType.STRING)
+	private BookingStatus status;
 
-    @Enumerated(EnumType.STRING)
-    private CancelledBy cancelledBy;
+	@Enumerated(EnumType.STRING)
+	private CancelledBy cancelledBy;
+
+	private Integer totalDays;
+
+	private Double basePrice;
+	private Double accessoriesTotal;
 }
-
