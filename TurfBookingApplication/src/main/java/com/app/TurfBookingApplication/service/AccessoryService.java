@@ -15,5 +15,7 @@ public interface AccessoryService {
 
 	List<AccessoryResponseDTO> addMultipleAccessories(List<AccessoryRequestDTO> requests,
 			Authentication authentication);
+	
+	List<AccessoryResponseDTO> getAvailableAccessories();
 }
 

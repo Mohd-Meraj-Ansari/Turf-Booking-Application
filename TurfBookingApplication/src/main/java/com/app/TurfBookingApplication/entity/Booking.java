@@ -36,7 +36,8 @@ public class Booking {
     @ManyToOne
     private Turf turf;
 
-    private LocalDate bookingDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private LocalTime startTime;
     private LocalTime endTime;
 

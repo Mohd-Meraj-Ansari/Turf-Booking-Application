@@ -17,5 +17,4 @@ public class TurfResponseDTO {
 	    private Double pricePerHour;
 	    private Long ownerId;
 
-//	private List<Long> bookingIds;
 }
