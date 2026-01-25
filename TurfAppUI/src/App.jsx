@@ -8,11 +8,14 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 
+//client pages
 import ClientDashboard from "./pages/ClientDashboard";
 import TopUpPage from "./pages/TopUpPage";
 import TurfBookingPage from "./pages/TurfBookingPage";
 import BookingHistoryPage from "./pages/BookingHistoryPage";
 import UpdateProfile from "./pages/UpdateClientProfilePage";
+// admin pages
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   return (
@@ -70,6 +73,17 @@ function App() {
             element={
               <ProtectedRoute allowedRole="CLIENT">
                 <UpdateProfile />
+              </ProtectedRoute>
+            }
+          />
+          {/* admin routes */}
+
+          {/* admin dashboard*/}
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute allowedRole="ADMIN">
+                <AdminDashboard />
               </ProtectedRoute>
             }
           />
