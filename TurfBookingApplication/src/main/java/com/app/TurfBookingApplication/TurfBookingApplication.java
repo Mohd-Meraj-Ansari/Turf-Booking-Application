@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
-@EnableScheduling //enable schedule for 'completion'
+@EnableScheduling //enable scheduler
 public class TurfBookingApplication {
 
 	public static void main(String[] args) {

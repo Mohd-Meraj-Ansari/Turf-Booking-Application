@@ -115,6 +115,25 @@
   opacity: 0.95;
 }
 
+.back-btn {
+  display: block;
+  text-decoration: none;
+  width: 100%;
+  margin-top: 0;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #4f46e5, #6d28d9);
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  opacity: 0.95;
+}
+
 /* Footer */
 .auth-footer {
   margin-top: 18px;
