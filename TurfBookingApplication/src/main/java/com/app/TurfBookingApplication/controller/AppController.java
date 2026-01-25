@@ -54,18 +54,17 @@ public class AppController {
 		return ResponseEntity.ok(users); // returns list of users
 	}
 
-	@PutMapping("/update-profile") // endpoint to update details
-	public ResponseEntity<UserResponseDTO> updateMyProfile(@RequestBody UpdateUserRequestDTO request,
-			Authentication authentication) {
+	 @PutMapping("/update-my-profile")
+	    public ResponseEntity<UserResponseDTO> updateMyProfile(
+	            @RequestBody UserRequestDTO request,
+	            Authentication authentication) {
+		 logger.info("request received in controller to update profile");
+		 
+	        UserResponseDTO response =
+	                userService.updateMyProfile(request, authentication);
 
-		logger.info("request received in controller to update details"); // log into file
-		String loggedInEmail = authentication.getName(); // get currently logged-in user
-
-		UserResponseDTO response = userService.updateMyProfile(request, loggedInEmail); // call method in
-																						// userimplementation class
-
-		return ResponseEntity.ok(response); // return response
-	}
+	        return ResponseEntity.ok(response);
+	    }
 
 	@PostMapping("/add-turf") // endpoint to add turf
 	public ResponseEntity<TurfResponseDTO> addTurf(@Validated @RequestBody TurfRequestDTO dto) {

@@ -12,6 +12,7 @@ import ClientDashboard from "./pages/ClientDashboard";
 import TopUpPage from "./pages/TopUpPage";
 import TurfBookingPage from "./pages/TurfBookingPage";
 import BookingHistoryPage from "./pages/BookingHistoryPage";
+import UpdateProfile from "./pages/UpdateClientProfilePage";
 
 function App() {
   return (
@@ -60,6 +61,15 @@ function App() {
             element={
               <ProtectedRoute allowedRole="CLIENT">
                 <BookingHistoryPage />
+              </ProtectedRoute>
+            }
+          />
+          {/* update details */}
+          <Route
+            path="/client/updateprofile"
+            element={
+              <ProtectedRoute allowedRole="CLIENT">
+                <UpdateProfile />
               </ProtectedRoute>
             }
           />
