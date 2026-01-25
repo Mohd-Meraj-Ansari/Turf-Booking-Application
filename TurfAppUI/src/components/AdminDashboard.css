@@ -1,0 +1,71 @@
+.admin-dashboard {
+  display: flex;
+  font-family: Arial, sans-serif;
+}
+
+.dashboard-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #2c3e50;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+.logout-btn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.sidebar {
+  width: 200px;
+  background: #34495e;
+  padding-top: 4rem;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.sidebar-link {
+  display: block;
+  color: white;
+  padding: 1rem;
+  text-decoration: none;
+}
+
+.sidebar-link:hover {
+  background: #1abc9c;
+}
+
+.dashboard-main {
+  margin-left: 220px;
+  padding: 2rem;
+  padding-top: 5rem;
+  flex-grow: 1;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.stat-card {
+  background: #ecf0f1;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.booking-history {
+  margin-top: 2rem;
+}

@@ -55,6 +55,10 @@ const AppNavbar = () => {
             <NavLink to="/client/bookings/history" className="nav-link">
               Booking History
             </NavLink>
+
+             <NavLink to="/client/updateprofile" className="nav-link">
+             Update Profile
+            </NavLink>
           </>
         )}
 

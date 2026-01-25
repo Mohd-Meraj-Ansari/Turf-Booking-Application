@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.app.TurfBookingApplication.dto.ProfileResponseDTO;
 import com.app.TurfBookingApplication.dto.TurfRequestDTO;
 import com.app.TurfBookingApplication.dto.UpdateUserRequestDTO;
 import com.app.TurfBookingApplication.dto.UserRequestDTO;
@@ -79,27 +80,38 @@ public class UserServiceImplementation implements UserService {
 	}
 
 	@Override
-	public UserResponseDTO updateMyProfile(UpdateUserRequestDTO request, String loggedInEmail) {
+    public UserResponseDTO updateMyProfile(
+    		UserRequestDTO request,
+            Authentication authentication) {
 
-		logger.info("request received in service to update user details");
+        User user = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-		User user = userRepository.findByEmail(loggedInEmail) // fetch logged-in user form db
-				.orElseThrow(() -> new RuntimeException("User not found"));
+        if (user.getRole() != UserRole.CLIENT) {
+            throw new RuntimeException("Only clients can update profile");
+        }
 
-		if (request.getName() != null) { // check and update username
-			user.setName(request.getName());
-		}
+        // update name
+        if (request.getName() != null && !request.getName().isBlank()) {
+            user.setName(request.getName());
+        }
 
-		if (request.getPassword() != null) { // check and update password
-			user.setPassword(passwordEncoder.encode(request.getPassword()));
-		}
+        // update password (encoded)
+        if (request.getPassword() != null && !request.getPassword().isBlank()) {
+            user.setPassword(
+                    passwordEncoder.encode(request.getPassword())
+            );
+        }
 
-		User updatedUser = userRepository.save(user); // save new details in db
+        userRepository.save(user);
 
-		return UserResponseDTO.builder() // return response
-				.id(updatedUser.getId()).name(updatedUser.getName()).email(updatedUser.getEmail())
-				.role(updatedUser.getRole()).build();
-	}
+        return UserResponseDTO.builder()
+        		.id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .build();
+    }
+
 
 	
 	private Long getLoggedInUserId() {
