@@ -40,7 +40,7 @@ const AppNavbar = () => {
           </>
         )}
 
-        {/* CLIENT */}
+        {/* client nav items */}
         {role === "CLIENT" && (
           <>
             <NavLink to="/client/dashboard" className="nav-link">
@@ -56,13 +56,13 @@ const AppNavbar = () => {
               Booking History
             </NavLink>
 
-             <NavLink to="/client/updateprofile" className="nav-link">
-             Update Profile
+            <NavLink to="/client/updateprofile" className="nav-link">
+              Update Profile
             </NavLink>
           </>
         )}
 
-        {/* ADMIN (if you add later) */}
+        {/* admin nav items */}
         {role === "ADMIN" && (
           <>
             <NavLink to="/admin/dashboard" className="nav-link">
@@ -76,7 +76,7 @@ const AppNavbar = () => {
 
         {/* LOGOUT (any logged-in user) */}
         {role && (
-          <button className="logout-btn" onClick={handleLogout}>
+          <button className="btn btn-danger" onClick={handleLogout}>
             Logout
           </button>
         )}
