@@ -22,7 +22,14 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setAuth(null);
+
+    //clear everything related to auth
     localStorage.removeItem("auth");
+    localStorage.removeItem("clientName");
+    localStorage.removeItem("role");
+    localStorage.removeItem("isLoggedIn");
+
+    sessionStorage.clear();
   };
 
   if (loading) {
