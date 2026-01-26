@@ -377,19 +377,20 @@ public class BookingServiceImplementation implements BookingService {
     //wallet
     private double processWalletAdvance(User client, double totalAmount) {
 
-        double advanceAmount = totalAmount * 0.50;  //50% advance
-
         Wallet wallet = walletRepository.findByClient(client)
                 .orElseThrow(() -> new RuntimeException("Wallet not found"));
 
-        if (wallet.getBalance() < advanceAmount)
+        if (wallet.getBalance() < totalAmount) {
             throw new RuntimeException("Insufficient wallet balance");
+        }
 
-        wallet.setBalance(wallet.getBalance() - advanceAmount);
+        //Deduct FULL amount
+        wallet.setBalance(wallet.getBalance() - totalAmount);
         walletRepository.save(wallet);
 
-        return advanceAmount;
+        return totalAmount;
     }
+
 
     
     //save booking
