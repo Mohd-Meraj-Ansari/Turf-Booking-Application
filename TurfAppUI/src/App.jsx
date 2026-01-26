@@ -16,6 +16,7 @@ import BookingHistoryPage from "./pages/BookingHistoryPage";
 import UpdateProfile from "./pages/UpdateClientProfilePage";
 // admin pages
 import AdminDashboard from "./pages/AdminDashboard";
+import AddTurfPage from "./pages/AddTurfPage";
 
 function App() {
   return (
@@ -84,6 +85,16 @@ function App() {
             element={
               <ProtectedRoute allowedRole="ADMIN">
                 <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* add turf*/}
+          <Route
+            path="/admin/addturf"
+            element={
+              <ProtectedRoute allowedRole="ADMIN">
+                <AddTurfPage />
               </ProtectedRoute>
             }
           />
