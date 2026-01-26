@@ -3,10 +3,12 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/RegisterPage.css";
 import { registerValidation } from "../validation/registerValidation";
+import { useAuth } from "../context/AuthContext";
 
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const registerUserObj = {
     name: "",
@@ -39,8 +41,9 @@ const RegisterPage = () => {
         localStorage.setItem("password", values.password);
         localStorage.setItem("role", data.role);
 
-        alert("Registration successful!");
-        navigate("/client/dashboard");
+        alert("Registration successful! Login to continue");
+        logout();
+        navigate("/login");
       } else {
         alert("Invalid username or password");
       }

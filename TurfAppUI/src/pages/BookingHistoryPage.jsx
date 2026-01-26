@@ -75,16 +75,15 @@ const BookingHistoryPage = () => {
         <strong>Refund Policy:</strong>
         <ul className="mb-0 mt-2">
           <li>
-            Cancellation <b>24 hours before</b> start time →{" "}
-            <b>100% advance refund</b>
+            Cancellation <b>24 hours before</b> start time → <b>100% refund</b>
           </li>
           <li>
             Cancellation <b>12–24 hours before</b> start time →{" "}
-            <b>50% advance refund</b>
+            <b>50% refund</b>
           </li>
           <li>
             Cancellation <b>less than 12 hours</b> before start time →{" "}
-            <b>40% advance refund</b>
+            <b>40% refund</b>
           </li>
         </ul>
         <small className="text-muted">
