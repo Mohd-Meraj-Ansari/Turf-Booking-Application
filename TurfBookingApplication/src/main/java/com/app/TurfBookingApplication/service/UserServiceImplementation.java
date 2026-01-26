@@ -8,9 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.app.TurfBookingApplication.dto.ProfileResponseDTO;
 import com.app.TurfBookingApplication.dto.TurfRequestDTO;
-import com.app.TurfBookingApplication.dto.UpdateUserRequestDTO;
 import com.app.TurfBookingApplication.dto.UserRequestDTO;
 import com.app.TurfBookingApplication.dto.UserResponseDTO;
 import com.app.TurfBookingApplication.entity.Turf;

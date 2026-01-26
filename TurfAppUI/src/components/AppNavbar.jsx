@@ -68,8 +68,8 @@ const AppNavbar = () => {
             <NavLink to="/admin/dashboard" className="nav-link">
               Dashboard
             </NavLink>
-            <NavLink to="/admin/users" className="nav-link">
-              Users
+            <NavLink to="/admin/addturf" className="nav-link">
+              Add Turf
             </NavLink>
           </>
         )}
