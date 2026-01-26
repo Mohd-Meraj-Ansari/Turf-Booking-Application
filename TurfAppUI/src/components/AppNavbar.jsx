@@ -71,6 +71,9 @@ const AppNavbar = () => {
             <NavLink to="/admin/addturf" className="nav-link">
               Add Turf
             </NavLink>
+            <NavLink to="/admin/addaccessory" className="nav-link">
+              Add Accessory
+            </NavLink>
           </>
         )}
 

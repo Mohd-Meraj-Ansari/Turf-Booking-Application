@@ -9,19 +9,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class AccessoryRequestDTO {
 
-    @NotBlank(message = "Accessory name is required")
-    private String accessoryName;
+	private Long id;
+	@NotBlank(message = "Accessory name is required")
+	private String accessoryName;
 
-    @NotNull(message = "Price per hour is required")
-    @Positive(message = "Price per hour must be greater than 0")
-    private Double pricePerHour;
-    
-    @Positive(message = "quantity must be greater than 0")
-    private Integer quantity;
+	@NotNull(message = "Price per hour is required")
+	@Positive(message = "Price per hour must be greater than 0")
+	private Double pricePerHour;
+
+	@Positive(message = "quantity must be greater than 0")
+	private Integer quantity;
 
 }
