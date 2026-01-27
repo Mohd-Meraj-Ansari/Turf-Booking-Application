@@ -18,6 +18,7 @@ import UpdateProfile from "./pages/UpdateClientProfilePage";
 import AdminDashboard from "./pages/AdminDashboard";
 import AddTurfPage from "./pages/AddTurfPage";
 import AddAccessoryPage from "./pages/AddAccessoryPage";
+import TurfAvailabilityPage from "./pages/TurfAvailabilityPage";
 
 function App() {
   return (
@@ -99,11 +100,23 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          {/* add accessory */}
           <Route
             path="/admin/addaccessory"
             element={
               <ProtectedRoute allowedRole="ADMIN">
                 <AddAccessoryPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* {add turf availability} */}
+          <Route
+            path="/admin/addavailability"
+            element={
+              <ProtectedRoute allowedRole="ADMIN">
+                <TurfAvailabilityPage />
               </ProtectedRoute>
             }
           />

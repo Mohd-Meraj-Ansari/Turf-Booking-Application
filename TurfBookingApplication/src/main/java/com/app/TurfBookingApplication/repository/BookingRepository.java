@@ -49,6 +49,20 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             @Param("turf") Turf turf,
             @Param("date") LocalDate date,
             @Param("types") List<BookingType> types);
+	
+	//check any hourly booking on a date
+	@Query("""
+		    SELECT COUNT(b) > 0
+		    FROM Booking b
+		    WHERE b.turf = :turf
+		      AND b.status = 'BOOKED'
+		      AND b.bookingType = 'HOURLY'
+		      AND b.startDate = :date
+		""")
+		boolean existsAnyHourlyOnDate(
+		        @Param("turf") Turf turf,
+		        @Param("date") LocalDate date
+		);
     
     //booking history
     @Query("""
