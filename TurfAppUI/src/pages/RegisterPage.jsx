@@ -55,7 +55,7 @@ const RegisterPage = () => {
   return (
     <>
       {/* Navbar */}
-      <nav className="auth-navbar">
+      {/* <nav className="auth-navbar">
         <div className="logo">
           <span className="logo-badge">Logo</span>
           <span className="logo-text">App Name</span>
@@ -66,7 +66,7 @@ const RegisterPage = () => {
           <Link to="/turfs">demo Link</Link>
           <Link to="/login">Login</Link>
         </div>
-      </nav>
+      </nav> */}
 
       {/* Register Card */}
       <div className="auth-container">

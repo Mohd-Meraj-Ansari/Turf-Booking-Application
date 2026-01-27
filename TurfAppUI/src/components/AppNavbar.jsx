@@ -17,11 +17,15 @@ const AppNavbar = () => {
   return (
     <nav className="app-navbar">
       {/* LEFT */}
-      <div className="nav-left">
-        <h4 className="logo" onClick={() => navigate("/")}>
-          App Name
-        </h4>
+      <div className="logo">
+        <span className="logo-badge" onClick={() => navigate("/")}>
+          BookMyTurf
+        </span>
+        {/* <h4 className="logo" onClick={() => navigate("/")}>
+          BookMyTurf
+        </h4> */}
       </div>
+      <div className="nav-left"></div>
 
       {/* RIGHT */}
       <div className="nav-right">
@@ -76,6 +80,9 @@ const AppNavbar = () => {
             </NavLink>
             <NavLink to="/admin/addavailability" className="nav-link">
               Add Turf Schedule
+            </NavLink>
+            <NavLink to="/admin/allbookings" className="nav-link">
+              All Bookings
             </NavLink>
           </>
         )}

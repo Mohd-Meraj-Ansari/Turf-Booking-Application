@@ -21,6 +21,7 @@ public class BookingResponseDTO {
 	private Long bookingid;
 	private Long turfId;
 	private String turfName;
+	private String clientName;
 	private LocalDate bookingDate;
 	private LocalTime startTime;
 	private LocalTime endTime;
