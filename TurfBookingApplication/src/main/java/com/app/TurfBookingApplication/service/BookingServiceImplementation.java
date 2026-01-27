@@ -25,6 +25,7 @@ import com.app.TurfBookingApplication.enums.BookingStatus;
 import com.app.TurfBookingApplication.enums.BookingType;
 import com.app.TurfBookingApplication.enums.CancelledBy;
 import com.app.TurfBookingApplication.enums.UserRole;
+import com.app.TurfBookingApplication.exception.InsufficientBalanceException;
 import com.app.TurfBookingApplication.repository.AccessoryRepository;
 import com.app.TurfBookingApplication.repository.BookingAccessoryRepository;
 import com.app.TurfBookingApplication.repository.BookingRepository;
@@ -227,13 +228,55 @@ public class BookingServiceImplementation implements BookingService {
             if (firstDayAvailability == null)
                 firstDayAvailability = availability;
 
-            if (type != BookingType.HOURLY &&
-                bookingRepository.existsNonHourlyOverlap(
+         //If trying FULL_DAY or MULTI_DAY
+            if (type != BookingType.HOURLY) {
+
+                // block if any hourly booking exists
+                if (bookingRepository.existsAnyHourlyOnDate(turf, date)) {
+                    throw new RuntimeException(
+                        "Turf already booked for some hours on " + date
+                    );
+                }
+
+                // block if FULL_DAY / MULTI_DAY exists
+                if (bookingRepository.existsNonHourlyOverlap(
                         turf,
                         date,
-                        List.of(BookingType.FULL_DAY, BookingType.MULTI_DAY))) {
-                throw new RuntimeException("Turf already booked on " + date);
+                        List.of(BookingType.FULL_DAY, BookingType.MULTI_DAY)
+                )) {
+                    throw new RuntimeException(
+                        "Turf already booked on " + date
+                    );
+                }
             }
+
+            //If trying HOURLY
+            if (type == BookingType.HOURLY) {
+
+                //block HOURLY ↔ HOURLY overlap
+                if (bookingRepository.existsHourlyOverlap(
+                        turf,
+                        date,
+                        window.getStartTime(),
+                        window.getEndTime()
+                )) {
+                    throw new RuntimeException(
+                        "Time slot already booked on " + date
+                    );
+                }
+
+                //block HOURLY if FULL_DAY / MULTI_DAY exists
+                if (bookingRepository.existsNonHourlyOverlap(
+                        turf,
+                        date,
+                        List.of(BookingType.FULL_DAY, BookingType.MULTI_DAY)
+                )) {
+                    throw new RuntimeException(
+                        "Turf is fully booked on " + date
+                    );
+                }
+            }
+
 
             if (type == BookingType.HOURLY &&
                 bookingRepository.existsHourlyOverlap(
@@ -381,7 +424,7 @@ public class BookingServiceImplementation implements BookingService {
                 .orElseThrow(() -> new RuntimeException("Wallet not found"));
 
         if (wallet.getBalance() < totalAmount) {
-            throw new RuntimeException("Insufficient wallet balance");
+        	throw new InsufficientBalanceException("Insufficient wallet balance");
         }
 
         //Deduct FULL amount

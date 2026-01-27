@@ -12,7 +12,7 @@ const LoginPage = () => {
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const { login } = useAuth(); // ✅ FIX
+  const { login } = useAuth(); //
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -32,7 +32,7 @@ const LoginPage = () => {
         formData,
       );
 
-      // ✅ Store auth in memory (AuthContext)
+      //Store auth in memory (AuthContext)
       login({
         email: formData.email,
         password: formData.password,
