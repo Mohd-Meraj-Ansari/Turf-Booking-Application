@@ -13,4 +13,6 @@ public interface BookingService {
 	List<BookingResponseDTO> getPastBookings(Authentication authentication);
 
 	void cancelBooking(Long bookingId, Authentication authentication);
+
+	List<BookingResponseDTO> getBookingsForMyTurf(Authentication authentication);
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.TurfBookingApplication.dto.BookingBreakdownDTO;
 import com.app.TurfBookingApplication.dto.BookingRequestDTO;
 import com.app.TurfBookingApplication.dto.BookingResponseDTO;
 import com.app.TurfBookingApplication.service.BookingService;
@@ -36,7 +34,7 @@ public class BookingController {
 	public ResponseEntity<BookingResponseDTO> bookTurf(@Validated @RequestBody BookingRequestDTO request,
 			Authentication authentication) {
 
-		logger.info("Request received to book turf");
+		logger.info("Request received in controller to book turf");
 
 		BookingResponseDTO response = bookingService.bookTurf(request, authentication);
 
@@ -60,4 +58,13 @@ public class BookingController {
 	    bookingService.cancelBooking(bookingId, authentication);
 	    return ResponseEntity.ok("Booking cancelled successfully");
 	}
+	
+	 @GetMapping("/my-turf")
+	    public ResponseEntity<List<BookingResponseDTO>> getBookingsForMyTurf(
+	            Authentication authentication) {
+
+	        return ResponseEntity.ok(
+	                bookingService.getBookingsForMyTurf(authentication)
+	        );
+	    }
 }

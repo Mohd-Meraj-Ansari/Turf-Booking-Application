@@ -106,6 +106,15 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
                (b.endDate = :today AND b.endTime < :now)
           )
     """)
-    void markCompletedBookings(LocalDate today, LocalTime now);	
+    void markCompletedBookings(LocalDate today, LocalTime now);
+    
+    //see all bookings
+    @Query("""
+    	    SELECT b
+    	    FROM Booking b
+    	    WHERE b.turf = :turf
+    	    ORDER BY b.startDate DESC, b.startTime DESC
+    	""")
+    	List<Booking> findAllByTurf(@Param("turf") Turf turf);
 }
 

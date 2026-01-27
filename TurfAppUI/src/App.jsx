@@ -19,6 +19,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AddTurfPage from "./pages/AddTurfPage";
 import AddAccessoryPage from "./pages/AddAccessoryPage";
 import TurfAvailabilityPage from "./pages/TurfAvailabilityPage";
+import AllBookingsPage from "./pages/AllBookingPage";
 
 function App() {
   return (
@@ -117,6 +118,16 @@ function App() {
             element={
               <ProtectedRoute allowedRole="ADMIN">
                 <TurfAvailabilityPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* {all turf bookings} */}
+          <Route
+            path="/admin/allbookings"
+            element={
+              <ProtectedRoute allowedRole="ADMIN">
+                <AllBookingsPage />
               </ProtectedRoute>
             }
           />

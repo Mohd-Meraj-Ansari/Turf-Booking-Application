@@ -608,6 +608,41 @@ public class BookingServiceImplementation implements BookingService {
         bookingRepository.save(booking);
     }
 
+
+    @Override
+    public List<BookingResponseDTO> getBookingsForMyTurf(Authentication authentication) {
+
+        User admin = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (admin.getRole() != UserRole.ADMIN) {
+            throw new RuntimeException("Only admin can view turf bookings");
+        }
+
+        Turf turf = turfRepository.findByOwnerId(admin.getId())
+                .orElseThrow(() -> new RuntimeException("Admin has no turf"));
+
+        List<Booking> bookings = bookingRepository.findAllByTurf(turf);
+
+        return bookings.stream()
+                .map(b -> BookingResponseDTO.builder()
+                        .bookingid(b.getId())
+                        .turfId(turf.getId())
+                        .turfName(turf.getTurfName())
+                        .clientName(b.getClient().getName())
+                        .bookingDate(b.getStartDate())
+                        .startDate(b.getStartDate())
+                        .endDate(b.getEndDate())
+                        .startTime(b.getStartTime())
+                        .endTime(b.getEndTime())
+                        .totalAmount(b.getTotalAmount())
+                        .advanceAmount(b.getAdvanceAmount())
+                        .status(b.getStatus())
+                        .build())
+                .toList();
+    }
+
+
 }
 
 
