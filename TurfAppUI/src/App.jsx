@@ -20,6 +20,8 @@ import AddTurfPage from "./pages/AddTurfPage";
 import AddAccessoryPage from "./pages/AddAccessoryPage";
 import TurfAvailabilityPage from "./pages/TurfAvailabilityPage";
 import AllBookingsPage from "./pages/AllBookingPage";
+import AdminWalletPage from "./pages/AdminWalletPage";
+import OwnerBookingsPage from "./pages/OwnerBookingsPage";
 
 function App() {
   return (
@@ -32,7 +34,6 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-
           {/* client only routes */}
           <Route
             path="/client/dashboard"
@@ -51,7 +52,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           {/*turf booking*/}
           <Route
             path="/client/turf/book"
@@ -61,7 +61,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           {/* booking history */}
           <Route
             path="/client/bookings/history"
@@ -81,7 +80,6 @@ function App() {
             }
           />
           {/* admin routes */}
-
           {/* admin dashboard*/}
           <Route
             path="/admin/dashboard"
@@ -91,7 +89,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           {/* add turf*/}
           <Route
             path="/admin/addturf"
@@ -101,7 +98,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           {/* add accessory */}
           <Route
             path="/admin/addaccessory"
@@ -111,7 +107,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           {/* {add turf availability} */}
           <Route
             path="/admin/addavailability"
@@ -122,12 +117,21 @@ function App() {
             }
           />
 
-          {/* {all turf bookings} */}
+          {/* admin wallet */}
           <Route
-            path="/admin/allbookings"
+            path="/admin/wallet"
             element={
               <ProtectedRoute allowedRole="ADMIN">
-                <AllBookingsPage />
+                <AdminWalletPage />
+              </ProtectedRoute>
+            }
+          />
+          {/* admin all-bookings */}
+          <Route
+            path="/admin/bookings"
+            element={
+              <ProtectedRoute allowedRole="ADMIN">
+                <OwnerBookingsPage />
               </ProtectedRoute>
             }
           />

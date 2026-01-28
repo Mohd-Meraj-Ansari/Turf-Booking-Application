@@ -35,5 +35,10 @@ public class WalletController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/admin-wallet")
+    public ResponseEntity<Double> getAdminWalletBalance(Authentication authentication) {
+        return ResponseEntity.ok(walletService.getAdminWalletBalance(authentication));
+    }
+
 }
 

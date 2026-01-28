@@ -15,4 +15,6 @@ public interface BookingService {
 	void cancelBooking(Long bookingId, Authentication authentication);
 
 	List<BookingResponseDTO> getBookingsForMyTurf(Authentication authentication);
+
+	Object getAllBookingsForMyTurf(Authentication authentication);
 }
