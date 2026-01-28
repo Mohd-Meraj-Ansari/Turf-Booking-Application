@@ -109,12 +109,23 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     void markCompletedBookings(LocalDate today, LocalTime now);
     
     //see all bookings
+//    @Query("""
+//    	    SELECT b
+//    	    FROM Booking b
+//    	    WHERE b.turf = :turf
+//    	    ORDER BY b.startDate DESC, b.startTime DESC
+//    	""")
+//    	List<Booking> findAllByTurf(@Param("turf") Turf turf);
+    
+    List<Booking> findByTurfOrderByStartDateAscStartTimeAsc(Turf turf);
+    
+    //all bookings for admin
     @Query("""
     	    SELECT b
     	    FROM Booking b
     	    WHERE b.turf = :turf
-    	    ORDER BY b.startDate DESC, b.startTime DESC
+    	    ORDER BY b.startDate ASC, b.startTime ASC
     	""")
-    	List<Booking> findAllByTurf(@Param("turf") Turf turf);
+    	List<Booking> findAllBookingsForTurf(@Param("turf") Turf turf);
 }
 

@@ -67,4 +67,13 @@ public class BookingController {
 	                bookingService.getBookingsForMyTurf(authentication)
 	        );
 	    }
+	 
+	 @GetMapping("/owner/bookings")
+	 public ResponseEntity<List<BookingResponseDTO>> getAllBookingsForOwner(
+	         Authentication authentication) {
+
+	     return ResponseEntity.ok(
+	             bookingService.getBookingsForMyTurf(authentication)
+	     );
+	 }
 }

@@ -56,10 +56,11 @@ public class UserServiceImplementation implements UserService {
 
 		User savedUser = userRepository.save(user); // save entity in database
 
-		if (savedUser.getRole() == UserRole.CLIENT) { // if userRole is client, create wallet
+		if (savedUser.getRole() == UserRole.CLIENT ||
+			    savedUser.getRole() == UserRole.ADMIN) { // if userRole is client or admin, create wallet
 			Wallet wallet = Wallet.builder()
 					.client(savedUser)
-					.balance(0.0) //default balance while new client is added
+					.balance(0.0) //default balance while new user is added
 					.build();
 			walletRepository.save(wallet); // save wallet with default balance
 		}
@@ -142,6 +143,4 @@ public class UserServiceImplementation implements UserService {
 
         return turfRepository.save(turf);
     }
-
-
 }

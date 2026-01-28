@@ -63,6 +63,7 @@ public class BookingServiceImplementation implements BookingService {
 
         User client = getLoggedInClient(authentication);
         Turf turf = getTurf(request.getTurfId());
+        User admin = turf.getOwner();
 
         BookingType bookingType = request.getBookingType();
         BookingWindow window = resolveBookingWindow(request);
@@ -87,9 +88,12 @@ public class BookingServiceImplementation implements BookingService {
         double totalAmount =
                 turfAmount + accessories.stream().mapToDouble(BookingAccessory::getCost).sum();
 
-        double advanceAmount =
-                processWalletAdvance(client, totalAmount);
+//        double advanceAmount =
+//                processWalletAdvance(client, totalAmount);
 
+        double advanceAmount =
+                transferBookingAmount(client, admin, totalAmount);
+        
         Booking booking = saveBooking(
                 client,
                 turf,
@@ -416,23 +420,52 @@ public class BookingServiceImplementation implements BookingService {
         }
     }
 
-    
-    //wallet
-    private double processWalletAdvance(User client, double totalAmount) {
+ // 🔁 Transfer booking amount from client → admin
+    private double transferBookingAmount(
+            User client,
+            User admin,
+            double totalAmount
+    ) {
 
-        Wallet wallet = walletRepository.findByClient(client)
-                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+        Wallet clientWallet = walletRepository.findByClient(client)
+                .orElseThrow(() -> new RuntimeException("Client wallet not found"));
 
-        if (wallet.getBalance() < totalAmount) {
-        	throw new InsufficientBalanceException("Insufficient wallet balance");
+        Wallet adminWallet = walletRepository.findByClient(admin)
+                .orElseThrow(() -> new RuntimeException("Admin wallet not found"));
+
+        if (clientWallet.getBalance() < totalAmount) {
+            throw new InsufficientBalanceException("Insufficient wallet balance");
         }
 
-        //Deduct FULL amount
-        wallet.setBalance(wallet.getBalance() - totalAmount);
-        walletRepository.save(wallet);
+        // Deduct from client
+        clientWallet.setBalance(clientWallet.getBalance() - totalAmount);
 
-        return totalAmount;
+        // Credit admin
+        adminWallet.setBalance(adminWallet.getBalance() + totalAmount);
+
+        walletRepository.save(clientWallet);
+        walletRepository.save(adminWallet);
+
+        return totalAmount; // full payment model
     }
+
+    
+    //wallet
+//    private double processWalletAdvance(User client, double totalAmount) {
+//
+//        Wallet wallet = walletRepository.findByClient(client)
+//                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+//
+//        if (wallet.getBalance() < totalAmount) {
+//        	throw new InsufficientBalanceException("Insufficient wallet balance");
+//        }
+//
+//        //Deduct FULL amount
+//        wallet.setBalance(wallet.getBalance() - totalAmount);
+//        walletRepository.save(wallet);
+//
+//        return totalAmount;
+//    }
 
 
     
@@ -595,12 +628,26 @@ public class BookingServiceImplementation implements BookingService {
 
         double refundAmount = advanceAmount * refundPercentage;
 
-        //wallet refund
-        Wallet wallet = walletRepository.findByClient(client)
-                .orElseThrow(() -> new RuntimeException("Wallet not found"));
+        //client wallet refund
+        Wallet clientWallet = walletRepository.findByClient(client)
+                .orElseThrow(() -> new RuntimeException("Client wallet not found"));
 
-        wallet.setBalance(wallet.getBalance() + refundAmount);
-        walletRepository.save(wallet);
+        clientWallet.setBalance(clientWallet.getBalance() + refundAmount);
+
+        //admin wallet deduction
+        User admin = booking.getTurf().getOwner();
+
+        Wallet adminWallet = walletRepository.findByClient(admin)
+                .orElseThrow(() -> new RuntimeException("Admin wallet not found"));
+
+        if (adminWallet.getBalance() < refundAmount) {
+            throw new RuntimeException("Admin has insufficient balance for refund");
+        }
+
+        adminWallet.setBalance(adminWallet.getBalance() - refundAmount);
+
+        walletRepository.save(clientWallet);
+        walletRepository.save(adminWallet);
 
         //update booking
         booking.setStatus(BookingStatus.CANCELLED);
@@ -622,7 +669,7 @@ public class BookingServiceImplementation implements BookingService {
         Turf turf = turfRepository.findByOwnerId(admin.getId())
                 .orElseThrow(() -> new RuntimeException("Admin has no turf"));
 
-        List<Booking> bookings = bookingRepository.findAllByTurf(turf);
+        List<Booking> bookings = bookingRepository.findAllBookingsForTurf(turf);
 
         return bookings.stream()
                 .map(b -> BookingResponseDTO.builder()
@@ -641,6 +688,13 @@ public class BookingServiceImplementation implements BookingService {
                         .build())
                 .toList();
     }
+
+
+	@Override
+	public Object getAllBookingsForMyTurf(Authentication authentication) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 }

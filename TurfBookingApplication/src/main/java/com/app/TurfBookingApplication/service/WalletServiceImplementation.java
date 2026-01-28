@@ -1,5 +1,6 @@
 package com.app.TurfBookingApplication.service;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,5 +87,20 @@ public class WalletServiceImplementation implements WalletService {
     }
 
     
+  //for admin wallet
+    public Double getAdminWalletBalance(Authentication authentication) {
+
+        User admin = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (admin.getRole() != UserRole.ADMIN) {
+            throw new RuntimeException("Only admin can view wallet balance");
+        }
+
+        Wallet wallet = walletRepository.findByClient(admin)
+                .orElseThrow(() -> new RuntimeException("Admin wallet not found"));
+
+        return wallet.getBalance();
+    }
 }
 
