@@ -16,11 +16,15 @@ import lombok.Setter;
 @Builder
 public class WalletTransactionResponseDTO {
 
-    private Long id;
-    private Long walletId;
-    private Double amount;
-    private WalletTransactionType transactionType;
-    private WalletTransactionReason reason;
-    private Long bookingId;
+	private Long id;
     private LocalDateTime createdAt;
+
+    private String type;          
+    private String reason;      
+
+    private Double amount;
+    private Double balanceAfter;
+
+    private Long bookingId;
+    private String description;
 }

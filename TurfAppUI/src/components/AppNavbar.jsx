@@ -87,6 +87,9 @@ const AppNavbar = () => {
             <NavLink to="/admin/bookings" className="nav-link">
               Bookings
             </NavLink>
+            <NavLink to="/admin/alltransactions" className="nav-link">
+              All Transactions
+            </NavLink>
           </>
         )}
 

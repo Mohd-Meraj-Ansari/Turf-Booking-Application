@@ -25,6 +25,7 @@ import com.app.TurfBookingApplication.enums.BookingStatus;
 import com.app.TurfBookingApplication.enums.BookingType;
 import com.app.TurfBookingApplication.enums.CancelledBy;
 import com.app.TurfBookingApplication.enums.UserRole;
+import com.app.TurfBookingApplication.enums.WalletTransactionReason;
 import com.app.TurfBookingApplication.exception.InsufficientBalanceException;
 import com.app.TurfBookingApplication.repository.AccessoryRepository;
 import com.app.TurfBookingApplication.repository.BookingAccessoryRepository;
@@ -51,6 +52,8 @@ public class BookingServiceImplementation implements BookingService {
     private final AccessoryRepository accessoryRepository;
     private final BookingAccessoryRepository bookingAccessoryRepository;
     private final WalletRepository walletRepository;
+    private final WalletTransactionService walletTransactionService;
+    
    
     private static final LocalTime PEAK_START_TIME = LocalTime.of(18, 0);
     private static final double PEAK_MULTIPLIER = 1.5; // 50% extra
@@ -87,9 +90,6 @@ public class BookingServiceImplementation implements BookingService {
 
         double totalAmount =
                 turfAmount + accessories.stream().mapToDouble(BookingAccessory::getCost).sum();
-
-//        double advanceAmount =
-//                processWalletAdvance(client, totalAmount);
 
         double advanceAmount =
                 transferBookingAmount(client, admin, totalAmount);
@@ -420,7 +420,7 @@ public class BookingServiceImplementation implements BookingService {
         }
     }
 
- // 🔁 Transfer booking amount from client → admin
+ //Transfer booking amount from client to admin
     private double transferBookingAmount(
             User client,
             User admin,
@@ -445,30 +445,30 @@ public class BookingServiceImplementation implements BookingService {
 
         walletRepository.save(clientWallet);
         walletRepository.save(adminWallet);
+        
+        walletTransactionService.recordTransaction(
+                client.getId(),
+                totalAmount,
+                WalletTransactionReason.BOOKING_PAYMENT,
+                "Turf booking payment",
+                false, // debit
+                clientWallet.getBalance()
+        );
 
-        return totalAmount; // full payment model
+        walletTransactionService.recordTransaction(
+                admin.getId(),
+                totalAmount,
+                WalletTransactionReason.BOOKING_PAYMENT,
+                " " + client.getName(),
+                true, // credit
+                adminWallet.getBalance()
+        );
+
+        return totalAmount; 
     }
 
     
-    //wallet
-//    private double processWalletAdvance(User client, double totalAmount) {
-//
-//        Wallet wallet = walletRepository.findByClient(client)
-//                .orElseThrow(() -> new RuntimeException("Wallet not found"));
-//
-//        if (wallet.getBalance() < totalAmount) {
-//        	throw new InsufficientBalanceException("Insufficient wallet balance");
-//        }
-//
-//        //Deduct FULL amount
-//        wallet.setBalance(wallet.getBalance() - totalAmount);
-//        walletRepository.save(wallet);
-//
-//        return totalAmount;
-//    }
 
-
-    
     //save booking
     private Booking saveBooking(
             User client,
@@ -653,6 +653,24 @@ public class BookingServiceImplementation implements BookingService {
         booking.setStatus(BookingStatus.CANCELLED);
         booking.setCancelledBy(CancelledBy.CLIENT);
         bookingRepository.save(booking);
+        
+        walletTransactionService.recordTransaction(
+                client.getId(),
+                refundAmount,
+                WalletTransactionReason.BOOKING_PAYMENT,
+                "Refund for cancelled booking",
+                true,
+                clientWallet.getBalance()
+        );
+
+        walletTransactionService.recordTransaction(
+                admin.getId(),
+                refundAmount,
+                WalletTransactionReason.BOOKING_PAYMENT,
+                "Refund issued to client",
+                false,
+                adminWallet.getBalance()
+        );
     }
 
 

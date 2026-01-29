@@ -81,7 +81,7 @@ const OwnerBookingsPage = () => {
           value={dateFilter}
           onChange={(e) => setDateFilter(e.target.value)}
         >
-          <option value="ALL">All Dates</option>
+          <option value="ALL">All</option>
           <option value="TODAY">Today</option>
           <option value="TOMORROW">Tomorrow</option>
         </select>

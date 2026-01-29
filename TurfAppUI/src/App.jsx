@@ -22,6 +22,7 @@ import TurfAvailabilityPage from "./pages/TurfAvailabilityPage";
 import AllBookingsPage from "./pages/AllBookingPage";
 import AdminWalletPage from "./pages/AdminWalletPage";
 import OwnerBookingsPage from "./pages/OwnerBookingsPage";
+import WalletTransactionsPage from "./pages/WalletTransactionPage";
 
 function App() {
   return (
@@ -132,6 +133,15 @@ function App() {
             element={
               <ProtectedRoute allowedRole="ADMIN">
                 <OwnerBookingsPage />
+              </ProtectedRoute>
+            }
+          />
+          {/* admin all-transactions */}
+          <Route
+            path="/admin/alltransactions"
+            element={
+              <ProtectedRoute allowedRole="ADMIN">
+                <WalletTransactionsPage />
               </ProtectedRoute>
             }
           />
