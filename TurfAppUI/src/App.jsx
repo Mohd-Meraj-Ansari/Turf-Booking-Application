@@ -23,6 +23,7 @@ import AllBookingsPage from "./pages/AllBookingPage";
 import AdminWalletPage from "./pages/AdminWalletPage";
 import OwnerBookingsPage from "./pages/OwnerBookingsPage";
 import WalletTransactionsPage from "./pages/WalletTransactionPage";
+import TurfStatusPage from "./pages/TurfStatusPage";
 
 function App() {
   return (
@@ -80,6 +81,16 @@ function App() {
               </ProtectedRoute>
             }
           />
+          {/* client turf status */}
+          <Route
+            path="/client/turfstatus"
+            element={
+              <ProtectedRoute allowedRole="CLIENT">
+                <TurfStatusPage />
+              </ProtectedRoute>
+            }
+          />
+
           {/* admin routes */}
           {/* admin dashboard*/}
           <Route
@@ -142,6 +153,15 @@ function App() {
             element={
               <ProtectedRoute allowedRole="ADMIN">
                 <WalletTransactionsPage />
+              </ProtectedRoute>
+            }
+          />
+          {/* admin turf status */}
+          <Route
+            path="/admin/turfstatus"
+            element={
+              <ProtectedRoute allowedRole="ADMIN">
+                <TurfStatusPage />
               </ProtectedRoute>
             }
           />

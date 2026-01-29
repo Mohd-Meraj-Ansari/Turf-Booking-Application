@@ -63,6 +63,10 @@ const AppNavbar = () => {
             <NavLink to="/client/updateprofile" className="nav-link">
               Update Profile
             </NavLink>
+
+            <NavLink to="/client/turfstatus" className="nav-link">
+              Turf Status
+            </NavLink>
           </>
         )}
 
@@ -89,6 +93,9 @@ const AppNavbar = () => {
             </NavLink>
             <NavLink to="/admin/alltransactions" className="nav-link">
               All Transactions
+            </NavLink>
+            <NavLink to="/admin/turfstatus" className="nav-link">
+              Turf Status
             </NavLink>
           </>
         )}
