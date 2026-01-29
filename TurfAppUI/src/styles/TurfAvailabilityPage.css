@@ -1,56 +1,109 @@
+/* ===============================
+   Page Layout
+================================ */
 .availability-container {
   display: flex;
   justify-content: center;
-  padding: 40px 20px;
+  align-items: center;
+  min-height: 100vh;
+  background: #f4f6f8;
+  padding: 20px;
 }
 
+/* ===============================
+   Main Card
+================================ */
 .availability-card {
   width: 100%;
-  max-width: 850px;
-  background: #fff;
-  border-radius: 12px;
-  padding: 25px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  max-width: 720px;
+  background: #ffffff;
+  padding: 28px 24px;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
 }
 
 .availability-card h2 {
-  text-align: center;
-  margin-bottom: 25px;
-}
-
-.day-row {
-  display: grid;
-  grid-template-columns: 140px 80px 1fr;
-  align-items: center;
-  gap: 15px;
-  padding: 12px 0;
-  border-bottom: 1px solid #eee;
-}
-
-.day-name {
+  margin-bottom: 20px;
+  color: #333;
   font-weight: 600;
 }
 
-.time-inputs {
+/* ===============================
+   Common Time Section
+================================ */
+.common-time.horizontal {
   display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
+  margin: 18px 0 28px;
+  flex-wrap: wrap;
 }
 
-.time-inputs input {
-  padding: 6px;
+.common-time.horizontal input[type="time"] {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
 }
 
-.closed-text {
-  color: #dc3545;
+.to-text {
   font-weight: 500;
+  color: #444;
 }
 
-/* Toggle switch */
+/* ===============================
+   Apply Button
+================================ */
+.apply-btn {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: #fff;
+  border: none;
+  border-radius: 22px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.apply-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(40, 167, 69, 0.3);
+}
+
+.apply-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ===============================
+   Day Row
+================================ */
+.day-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 10px 0;
+}
+
+.day-name {
+  width: 110px;
+  font-weight: 600;
+  color: #333;
+  text-align: left;
+}
+
+/* ===============================
+   Switch Toggle
+================================ */
 .switch {
   position: relative;
-  width: 42px;
-  height: 22px;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
 }
 
 .switch input {
@@ -64,8 +117,8 @@
   cursor: pointer;
   inset: 0;
   background-color: #ccc;
-  border-radius: 22px;
-  transition: 0.3s;
+  transition: 0.4s;
+  border-radius: 24px;
 }
 
 .slider:before {
@@ -73,33 +126,71 @@
   content: "";
   height: 18px;
   width: 18px;
-  left: 2px;
-  bottom: 2px;
+  left: 3px;
+  bottom: 3px;
   background-color: white;
+  transition: 0.4s;
   border-radius: 50%;
-  transition: 0.3s;
 }
 
-input:checked + .slider {
-  background-color: #198754;
+.switch input:checked + .slider {
+  background-color: #28a745;
 }
 
-input:checked + .slider:before {
-  transform: translateX(20px);
+.switch input:checked + .slider:before {
+  transform: translateX(22px);
 }
 
+/* ===============================
+   Time Inputs Per Day
+================================ */
+.time-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.time-inputs input[type="time"] {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 13px;
+}
+
+/* ===============================
+   Closed Text
+================================ */
+.closed-text {
+  color: #999;
+  font-size: 14px;
+}
+
+/* ===============================
+   Save Button
+================================ */
 .save-btn {
-  width: 100%;
-  margin-top: 25px;
-  padding: 12px;
-  background-color: #0d6efd;
-  color: white;
+  margin-top: 26px;
+  padding: 12px 28px;
+  border-radius: 24px;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  background: linear-gradient(135deg, #007bff, #0056d2);
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .save-btn:hover {
-  background-color: #0b5ed7;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 123, 255, 0.3);
+}
+
+/* ===============================
+   Loading State
+================================ */
+.loading {
+  font-size: 16px;
+  color: #555;
+  text-align: center;
 }

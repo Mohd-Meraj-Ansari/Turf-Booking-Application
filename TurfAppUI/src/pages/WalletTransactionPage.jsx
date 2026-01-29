@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
-import "../styles/WalletTransactionPage.css";
+import '../styles/WalletTransactionPage.css';
 
 const WalletTransactionPage = () => {
   const { auth } = useAuth();
@@ -27,7 +27,7 @@ const WalletTransactionPage = () => {
             username: auth.email,
             password: auth.password,
           },
-        },
+        }
       );
 
       setTransactions(res.data);
@@ -47,16 +47,16 @@ const WalletTransactionPage = () => {
     }
   };
 
-  if (loading) return <p className="loading">Loading wallet...</p>;
+  if (loading)
+    return <p className="transactions-loading">Loading wallet...</p>;
 
   return (
-    <div className="wallet-page">
-      <div className="page-header">
-        <h2>Wallet Transactions</h2>
+    <div className="transactions-page">
+      <div className="transactions-header">
+        <h2 className="transactions-title">Wallet Transactions</h2>
 
-        {/* Filter */}
         <select
-          className="wallet-filter"
+          className="transactions-filter"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         >
@@ -67,13 +67,13 @@ const WalletTransactionPage = () => {
       </div>
 
       {filtered.length === 0 ? (
-        <p className="empty-text">No transactions found</p>
+        <p className="transactions-empty">No transactions found</p>
       ) : (
-        <div className="table-wrapper">
-          <table className="wallet-table">
+        <div className="transactions-card">
+          <table className="transactions-table text-center">
             <thead>
               <tr>
-                <th>#</th>
+                <th>Serial No</th>
                 <th>Date</th>
                 <th>Name</th>
                 <th>Type</th>
@@ -91,7 +91,7 @@ const WalletTransactionPage = () => {
 
                   <td>
                     <span
-                      className={`txn-badge ${
+                      className={`txn-type ${
                         t.type === "CREDIT" ? "credit" : "debit"
                       }`}
                     >
@@ -100,9 +100,9 @@ const WalletTransactionPage = () => {
                   </td>
 
                   <td
-                    className={
-                      t.type === "CREDIT" ? "amount-credit" : "amount-debit"
-                    }
+                    className={`amount ${
+                      t.type === "CREDIT" ? "credit" : "debit"
+                    }`}
                   >
                     {t.type === "CREDIT" ? "+" : "-"}₹{t.amount}
                   </td>

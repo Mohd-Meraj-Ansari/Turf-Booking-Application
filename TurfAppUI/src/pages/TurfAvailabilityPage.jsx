@@ -19,6 +19,10 @@ const TurfAvailabilityPage = () => {
   const [availability, setAvailability] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // ✅ global time state (INSIDE component)
+  const [globalOpenTime, setGlobalOpenTime] = useState("");
+  const [globalCloseTime, setGlobalCloseTime] = useState("");
+
   useEffect(() => {
     initAvailability();
   }, []);
@@ -26,7 +30,7 @@ const TurfAvailabilityPage = () => {
   const initAvailability = () => {
     const initial = DAYS.map((day) => ({
       dayOfWeek: day,
-      available: false,
+      available: true,
       openTime: "",
       closeTime: "",
     }));
@@ -49,6 +53,21 @@ const TurfAvailabilityPage = () => {
   const handleTimeChange = (index, field, value) => {
     const updated = [...availability];
     updated[index][field] = value;
+    setAvailability(updated);
+  };
+
+  // ✅ apply common time to all OPEN days
+  const applyTimeToAllOpenDays = () => {
+    const updated = availability.map((day) =>
+      day.available
+        ? {
+            ...day,
+            openTime: globalOpenTime,
+            closeTime: globalCloseTime,
+          }
+        : day,
+    );
+
     setAvailability(updated);
   };
 
@@ -77,6 +96,31 @@ const TurfAvailabilityPage = () => {
     <div className="availability-container">
       <div className="availability-card">
         <h2>Turf Availability</h2>
+
+        {/* ✅ Common time section */}
+        <div className="common-time horizontal">
+          <input
+            type="time"
+            value={globalOpenTime}
+            onChange={(e) => setGlobalOpenTime(e.target.value)}
+          />
+
+          <span className="to-text">to</span>
+
+          <input
+            type="time"
+            value={globalCloseTime}
+            onChange={(e) => setGlobalCloseTime(e.target.value)}
+          />
+
+          <button
+            className="apply-btn"
+            onClick={applyTimeToAllOpenDays}
+            disabled={!globalOpenTime || !globalCloseTime}
+          >
+            Apply Time to All Days
+          </button>
+        </div>
 
         {availability.map((day, index) => (
           <div className="day-row" key={day.dayOfWeek}>
