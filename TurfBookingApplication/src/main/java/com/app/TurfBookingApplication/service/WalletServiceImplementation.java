@@ -53,6 +53,7 @@ public class WalletServiceImplementation implements WalletService {
         // Create transaction record
         WalletTransaction transaction = WalletTransaction.builder()
                 .wallet(updatedWallet)
+                .user(user)  
                 .amount(amount)
                 .transactionType(WalletTransactionType.CREDIT)
                 .reason(WalletTransactionReason.TOP_UP)

@@ -47,8 +47,15 @@ public class WalletTransaction {
 
 	private LocalDateTime createdAt;
 
-	@PrePersist
+    private Double balanceAfter;
+
+    private String description;
+
+    @PrePersist
 	void onCreate() {
 		createdAt = LocalDateTime.now();
 	}
+    @ManyToOne(optional = false)
+    private User user;
+
 }

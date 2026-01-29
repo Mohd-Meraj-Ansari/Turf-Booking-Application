@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleOtherRuntime(RuntimeException ex) {
         return ResponseEntity
                 .status(500)
-                .body("Something went wrong: " + ex.getMessage());
+                .body(ex.getMessage());
     }
 }
 

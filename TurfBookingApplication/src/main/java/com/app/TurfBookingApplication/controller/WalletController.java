@@ -1,11 +1,19 @@
 package com.app.TurfBookingApplication.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.app.TurfBookingApplication.dto.WalletResponseDTO;
+import com.app.TurfBookingApplication.dto.WalletTransactionResponseDTO;
 import com.app.TurfBookingApplication.service.WalletService;
+import com.app.TurfBookingApplication.service.WalletTransactionService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class WalletController {
 
     private final WalletService walletService;
+    private final WalletTransactionService walletTransactionService;
 
     @PostMapping("/add-balance")
     public ResponseEntity<WalletResponseDTO> addBalance(
@@ -40,5 +49,11 @@ public class WalletController {
         return ResponseEntity.ok(walletService.getAdminWalletBalance(authentication));
     }
 
+    @GetMapping("/transactions")
+    public List<WalletTransactionResponseDTO> getMyTransactions(
+            Authentication authentication) {
+
+        return walletTransactionService.getMyWalletTransactions(authentication);
+    }
 }
 
