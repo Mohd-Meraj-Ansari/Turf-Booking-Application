@@ -1,0 +1,49 @@
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.day-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  margin: 15px 0;
+  font-size: 14px;
+  flex-wrap: wrap;
+}
+
+.day-info span {
+  white-space: nowrap;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.badge.open {
+  background: green;
+  color: white;
+}
+
+.badge.closed {
+  background: red;
+  color: white;
+}
+
+.time {
+  color: #374151;
+  font-weight: 500;
+}
+
+.closed-text {
+  margin-top: 30px;
+  text-align: center;
+  font-weight: 600;
+  color: #dc2626;
+}

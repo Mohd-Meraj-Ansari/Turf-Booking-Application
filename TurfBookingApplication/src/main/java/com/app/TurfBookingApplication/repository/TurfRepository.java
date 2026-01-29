@@ -10,4 +10,6 @@ public interface TurfRepository extends JpaRepository<Turf, Long> {
 
 	Optional<Turf> findByOwnerId(Long ownerId);
 
+	Optional<Turf> findFirstByOrderByIdAsc();
+
 }
