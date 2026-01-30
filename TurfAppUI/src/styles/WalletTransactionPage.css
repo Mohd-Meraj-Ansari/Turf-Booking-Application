@@ -1,19 +1,15 @@
-/* ===============================
-   Page Layout
-================================ */
-.wallet-page {
-  min-height: 100vh;
-  background: #f5f7fa;
+/* Page wrapper */
+.transactions-page {
   padding: 40px 20px;
+  background-color: #f8fafc;
+  min-height: calc(100vh - 80px);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* ===============================
-   Header
-================================ */
-.page-header {
+/* Header section */
+.transactions-header {
   width: 100%;
   max-width: 1100px;
   display: flex;
@@ -22,102 +18,120 @@
   margin-bottom: 24px;
 }
 
-.page-header h2 {
+.transactions-title {
   font-size: 22px;
   font-weight: 600;
-  color: #1f2937;
+  color: #0f172a;
 }
 
-/* ===============================
-   Filter
-================================ */
-.wallet-filter {
+/* Filter dropdown */
+.transactions-filter {
   padding: 8px 14px;
   border-radius: 8px;
   border: 1px solid #d1d5db;
-  background: #ffffff;
+  background-color: #ffffff;
   font-size: 14px;
   cursor: pointer;
 }
 
-/* ===============================
-   Table Wrapper (MAIN FIX)
-================================ */
-.table-wrapper {
+/* Card container */
+.transactions-card {
   width: 100%;
-  max-width: 1100px;   /* 👈 wider like admin table */
-  background: #ffffff;
+  max-width: 1100px;
+  background-color: #ffffff;
   border-radius: 14px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-  overflow-x: hidden; /* 👈 remove unnecessary scrollbar */
+  overflow-x: auto;
 }
 
-/* ===============================
-   Table
-================================ */
-.wallet-table {
+/* Table */
+.transactions-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.wallet-table th,
-.wallet-table td {
-  padding: 14px 16px;
-  border-bottom: 1px solid #e5e7eb;
-  text-align: left;
+.transactions-table thead {
+  background-color: #f8fafc;
+}
+
+.transactions-table th {
+  padding: 14px;
   font-size: 14px;
-}
-
-.wallet-table th {
-  background: #f9fafb;
   font-weight: 600;
-  color: #374151;
+  color: #334155;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.wallet-table tr:last-child td {
-  border-bottom: none;
+.transactions-table td {
+  padding: 14px;
+  font-size: 14px;
+  color: #0f172a;
+  border-bottom: 1px solid #f1f5f9;
 }
 
-/* ===============================
-   Badge
-================================ */
-.txn-badge {
-  padding: 5px 12px;
-  border-radius: 14px;
+/* Center text utility */
+.text-center {
+  text-align: center;
+}
+
+/* Transaction type badge */
+.txn-type {
+  padding: 6px 14px;
+  border-radius: 999px;
   font-size: 12px;
   font-weight: 600;
+  display: inline-block;
 }
 
-.txn-badge.credit {
-  background: #dcfce7;
-  color: #166534;
+/* Credit badge */
+.txn-type.credit {
+  background-color: #dcfce7;
+  color: #15803d;
 }
 
-.txn-badge.debit {
-  background: #fee2e2;
-  color: #991b1b;
+/* Debit badge */
+.txn-type.debit {
+  background-color: #fee2e2;
+  color: #b91c1c;
 }
 
-/* ===============================
-   Amount
-================================ */
-.amount-credit {
+/* Amount styling */
+.amount {
+  font-weight: 600;
+}
+
+.amount.credit {
   color: #16a34a;
-  font-weight: 600;
 }
 
-.amount-debit {
+.amount.debit {
   color: #dc2626;
-  font-weight: 600;
 }
 
-/* ===============================
-   Empty & Loading
-================================ */
-.empty-text,
-.loading {
-  margin-top: 40px;
+/* Empty state */
+.transactions-empty {
+  margin-top: 60px;
   font-size: 15px;
-  color: #6b7280;
+  color: #64748b;
+}
+
+/* Loading */
+.transactions-loading {
+  margin-top: 60px;
+  font-size: 15px;
+  color: #64748b;
   text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .transactions-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .transactions-title {
+    font-size: 20px;
+  }
 }

@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import DashboardStats from "../components/DashboardStats";
 import DashboardLayout from "../layouts/DashboardLayout";
+import AllBookingPage from './AllBookingPage';
+
 import "../styles/AdminDashboard.css";
 
 const AdminDashboard = () => {
@@ -14,6 +16,7 @@ const AdminDashboard = () => {
         </div>
       </DashboardLayout>
       <DashboardStats />
+        <AllBookingPage/>
     </>
   );
 };
