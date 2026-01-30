@@ -1,115 +1,193 @@
+/* Page background */
 .accessories-container {
-  min-height: 100vh;
-  background: #f4f6f9;
+  min-height: calc(100vh - 80px);
+  background: linear-gradient(135deg, #f8fafc, #eef2ff);
+  padding: 50px 20px;
   display: flex;
   justify-content: center;
-  padding: 40px 20px;
 }
 
+/* Main card */
 .accessories-card {
-  background: #fff;
   width: 100%;
-  max-width: 900px;
-  border-radius: 14px;
-  padding: 30px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  max-width: 950px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.4s ease-in-out;
 }
 
+/* Title */
 .accessories-card h2 {
-  text-align: center;
-  margin-bottom: 25px;
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 28px;
 }
 
-/* Turf info */
-.turf-info.horizontal {
-  display: flex;
-  justify-content: space-between;
-  background: #e9f8ff;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 25px;
+/* Turf info box */
+.turf-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  background: linear-gradient(135deg, #e0e7ff, #f1f5f9);
+  padding: 18px 20px;
+  border-radius: 16px;
+  margin-bottom: 30px;
 }
 
 .turf-info .label {
   font-size: 12px;
-  color: #666;
+  font-weight: 600;
+  color: #475569;
+  letter-spacing: 0.4px;
 }
 
 .turf-info p {
-  margin: 4px 0 0;
+  margin-top: 6px;
+  font-size: 16px;
   font-weight: 600;
+  color: #1e293b;
 }
 
 /* Accessory card */
 .accessory-card {
-  border: 1px solid #e1e4e8;
-  border-radius: 12px;
-  padding: 18px;
-  margin-bottom: 18px;
-  background: #fafafa;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 22px;
+  margin-bottom: 22px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.accessory-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* Header */
 .accessory-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 18px;
 }
 
 .accessory-header h4 {
-  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
 }
 
+/* Remove button */
 .remove-btn {
-  background: #ff5c5c;
-  color: #fff;
+  background: linear-gradient(135deg, #fee2e2, #fecaca);
   border: none;
+  color: #b91c1c;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  width: 28px;
-  height: 28px;
   cursor: pointer;
+  font-size: 16px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.remove-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 12px rgba(185, 28, 28, 0.3);
 }
 
 /* Inputs grid */
 .accessory-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
-  gap: 15px;
+  gap: 16px;
 }
 
+/* Inputs */
 .accessory-grid input {
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
   font-size: 14px;
+  outline: none;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Buttons */
+.accessory-grid input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* Add accessory button */
 .add-accessory-btn {
   width: 100%;
+  margin-top: 12px;
   padding: 14px;
-  margin-top: 15px;
-  border: 2px dashed #0d6efd;
-  background: transparent;
-  color: #0d6efd;
-  border-radius: 10px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: white;
+  font-size: 15px;
   font-weight: 600;
+  border: none;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .add-accessory-btn:hover {
-  background: #eef4ff;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(34, 197, 94, 0.35);
 }
 
+/* Save button */
 .save-btn {
-  margin-top: 25px;
   width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
-  color: #fff;
-  border: none;
-  border-radius: 12px;
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: #ffffff;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
+  border: none;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(79, 70, 229, 0.4);
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  margin-top: 60px;
+  font-size: 16px;
+  color: #64748b;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .turf-info {
+    grid-template-columns: 1fr;
+  }
+
+  .accessory-grid {
+    grid-template-columns: 1fr;
+  }
 }
