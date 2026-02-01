@@ -128,5 +128,43 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 			      AND b.startDate = :date
 			""")
 	List<Booking> findHourlyBookings(@Param("turf") Turf turf, @Param("date") LocalDate date);
+	
+	//turf admin dashboard
+	@Query("""
+		    SELECT COUNT(b)
+		    FROM Booking b
+		    WHERE b.turf = :turf
+		      AND b.startDate = :today
+		""")
+		long countTodayBookings(Turf turf, LocalDate today);
+
+		@Query("""
+		    SELECT COALESCE(SUM(b.totalAmount), 0)
+		    FROM Booking b
+		    WHERE b.turf = :turf
+		      AND b.status = 'BOOKED'
+		      AND b.startDate = :today
+		""")
+		double sumTodayEarnings(Turf turf, LocalDate today);
+
+		@Query("""
+		    SELECT COUNT(b)
+		    FROM Booking b
+		    WHERE b.turf = :turf
+		      AND b.status = 'BOOKED'
+		      AND b.startDate >= :today
+		""")
+		long countUpcomingBookings(Turf turf, LocalDate today);
+
+		@Query("""
+		    SELECT COUNT(b)
+		    FROM Booking b
+		    WHERE b.turf = :turf
+		      AND b.status = 'CANCELLED'
+		""")
+		long countCancelledBookings(Turf turf);
+
+		long countByTurf(Turf turf);
+
 
 }

@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import DashboardStats from "../components/DashboardStats";
 import DashboardLayout from "../layouts/DashboardLayout";
-import AllBookingPage from './AllBookingPage';
+import AllBookingPage from "./AllBookingPage";
 
 import "../styles/AdminDashboard.css";
+import AdminDashboardStats from "./AdminDashboardStats";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -15,8 +16,8 @@ const AdminDashboard = () => {
           <span className="fw-bolder fs-4">Welcome, {clientName}</span>
         </div>
       </DashboardLayout>
-      <DashboardStats />
-        <AllBookingPage/>
+      <AdminDashboardStats />
+      <AllBookingPage />
     </>
   );
 };
