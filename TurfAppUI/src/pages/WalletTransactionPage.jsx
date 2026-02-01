@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
-import '../styles/WalletTransactionPage.css';
+import "../styles/WalletTransactionPage.css";
 
 const WalletTransactionPage = () => {
   const { auth } = useAuth();
@@ -27,7 +27,7 @@ const WalletTransactionPage = () => {
             username: auth.email,
             password: auth.password,
           },
-        }
+        },
       );
 
       setTransactions(res.data);
@@ -47,8 +47,7 @@ const WalletTransactionPage = () => {
     }
   };
 
-  if (loading)
-    return <p className="transactions-loading">Loading wallet...</p>;
+  if (loading) return <p className="transactions-loading">Loading wallet...</p>;
 
   return (
     <div className="transactions-page">
@@ -74,8 +73,8 @@ const WalletTransactionPage = () => {
             <thead>
               <tr>
                 <th>Serial No</th>
-                <th>Date</th>
-                <th>Name</th>
+                {/* <th>Date</th> */}
+                <th>Description</th>
                 <th>Type</th>
                 <th>Amount (₹)</th>
                 <th>Balance After</th>
@@ -86,7 +85,7 @@ const WalletTransactionPage = () => {
               {filtered.map((t, index) => (
                 <tr key={t.id}>
                   <td>{index + 1}</td>
-                  <td>{t.date}</td>
+                  {/* <td>{t.date}</td> */}
                   <td>{t.description}</td>
 
                   <td>

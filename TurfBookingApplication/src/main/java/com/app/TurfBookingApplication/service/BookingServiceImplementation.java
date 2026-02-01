@@ -459,7 +459,7 @@ public class BookingServiceImplementation implements BookingService {
                 admin.getId(),
                 totalAmount,
                 WalletTransactionReason.BOOKING_PAYMENT,
-                " " + client.getName(),
+                "Turf booked by  " + client.getName(),
                 true, // credit
                 adminWallet.getBalance()
         );
