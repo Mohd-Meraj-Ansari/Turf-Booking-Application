@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import DashboardStats from "../components/DashboardStats";
 import DashboardLayout from "../layouts/DashboardLayout";
+import TurfStatusPage from "./TurfStatusPage";
 
 const ClientDashboard = () => {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const ClientDashboard = () => {
       </div>
 
       <DashboardStats />
-      {/* <BookingHistoryPage /> */}
+      <TurfStatusPage />
     </DashboardLayout>
   );
 };
