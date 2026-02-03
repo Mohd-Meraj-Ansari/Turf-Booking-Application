@@ -136,7 +136,7 @@ const RegisterPage = () => {
               <option value="">-- Choose Role --</option>
               <option value="CLIENT">Client</option>
               <option value="ADMIN">Admin</option>
-              <option value="ADVERTISER">Advertiser</option>
+              {/* <option value="ADVERTISER">Advertiser</option> */}
             </select>
             {touched.role && errors.role && (
               <span className="error">{errors.role}</span>

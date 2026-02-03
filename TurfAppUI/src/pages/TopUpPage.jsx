@@ -12,7 +12,6 @@ const TopUpPage = () => {
   const { auth } = useAuth();
   console.log("AUTH CONTEXT:", auth);
 
-  // ✅ FETCH BALANCE ON PAGE LOAD
   useEffect(() => {
     const fetchBalance = async () => {
       try {
@@ -38,7 +37,6 @@ const TopUpPage = () => {
     }
   }, [auth]);
 
-  // ✅ TOP UP HANDLER
   const handleTopUp = async () => {
     setMessage("");
     setError("");
@@ -76,13 +74,13 @@ const TopUpPage = () => {
 
   return (
     <div className="wallet-page">
-      {/* BALANCE CARD */}
+      {/* balance card */}
       <div className="balance-card">
         <span className="balance-label">Wallet Balance</span>
-        <h1>₹ {balance === null ? "Loading..." : balance}</h1>
+        <h1>₹ {balance === null ? "Loading..." : balance.toFixed(2)}</h1>
       </div>
 
-      {/* TOP UP CARD */}
+      {/* top up card */}
       <div className="topup-card">
         <h3>Top Up Wallet</h3>
 

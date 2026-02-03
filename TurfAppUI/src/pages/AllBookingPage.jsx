@@ -48,7 +48,7 @@ const AllBookingsPage = () => {
           <div className="table-wrapper">
             <table>
               <thead>
-                <tr>
+                <tr className="text-center">
                   <th>No</th>
                   <th>Client</th>
                   <th>Date(s)</th>
@@ -91,7 +91,7 @@ const AllBookingsPage = () => {
                       )}
                     </td>
 
-                    <td>₹{b.totalAmount}</td>
+                    <td>₹{b.advanceAmount.toFixed(2)}</td>
 
                     <td>
                       <span

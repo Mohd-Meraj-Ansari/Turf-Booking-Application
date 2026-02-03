@@ -116,13 +116,13 @@ const BookingHistoryPage = () => {
             <div className="table-responsive">
               <table className="table table-bordered table-hover align-middle">
                 <thead className="table-light">
-                  <tr>
+                  <tr className="text-center">
                     <th>No</th>
                     <th>Turf</th>
                     <th>Date(s)</th>
                     <th>Time</th>
-                    <th>Total (₹)</th>
-                    <th>Advance (₹)</th>
+                    <th>Total before Discount (₹)</th>
+                    <th>Total After Discount (₹)</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -157,8 +157,8 @@ const BookingHistoryPage = () => {
                         )}
                       </td>
 
-                      <td>₹{b.totalAmount}</td>
-                      <td>₹{b.advanceAmount}</td>
+                      <td>₹{b.totalAmount.toFixed(2)}</td>
+                      <td>₹{b.advanceAmount.toFixed(2)}</td>
 
                       <td>
                         <span className="badge bg-success">{b.status}</span>

@@ -42,7 +42,7 @@ const AdminWalletPage = () => {
 
         <div className="wallet-balance">
           <span>Current Balance</span>
-          <h1>₹ {wallet}</h1>
+          <h1>₹ {wallet.toFixed(2)}</h1>
         </div>
 
         <div className="wallet-info">

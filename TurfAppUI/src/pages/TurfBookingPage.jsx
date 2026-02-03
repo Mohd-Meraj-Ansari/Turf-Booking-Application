@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import "../styles/TurfBookingPage.css";
 
 const TurfBookingPage = () => {
   const navigate = useNavigate();
@@ -141,9 +142,9 @@ const TurfBookingPage = () => {
         },
       });
 
-      setMessage("✅ Turf booked successfully");
+      setMessage("Turf booked successfully");
     } catch (err) {
-      setMessage(err.response?.data || "❌ Booking failed");
+      setMessage(err.response?.data || "Booking failed");
     } finally {
       setLoading(false);
     }
@@ -155,6 +156,32 @@ const TurfBookingPage = () => {
 
   return (
     <div className="container mt-4" style={{ maxWidth: "800px" }}>
+      {/* discount-info */}
+      <div className="info-box discount-box">
+        <h4>Discount Policy</h4>
+
+        <ul>
+          <li>
+            Discount is calculated based on your <strong>wallet balance</strong>
+          </li>
+          <li>
+            Discount Formula:
+            <strong> totalAmount ÷ 1000</strong>
+          </li>
+          <li>
+            Maximum discount cap: <strong>50% of total amount</strong>
+          </li>
+          <li>
+            Higher wallet balance = <strong>higher discount</strong>
+          </li>
+        </ul>
+
+        <p className="note">
+          Discount is applied automatically during booking.
+        </p>
+      </div>
+
+      {/* booking card */}
       <div className="card shadow">
         <div className="card-body">
           {/* header */}
@@ -176,7 +203,9 @@ const TurfBookingPage = () => {
                   <div className="col-md-4">
                     <strong>{turf.turfName}</strong>
                   </div>
-                  <div className="col-md-4"><strong>{turf.location}</strong></div>
+                  <div className="col-md-4">
+                    <strong>{turf.location}</strong>
+                  </div>
                   <div className="col-md-4 text-end">
                     <span className="badge bg-success">
                       ₹{turf.pricePerHour}/hour

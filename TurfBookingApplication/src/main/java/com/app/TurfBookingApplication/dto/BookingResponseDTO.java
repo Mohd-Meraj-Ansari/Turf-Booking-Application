@@ -30,4 +30,5 @@ public class BookingResponseDTO {
 	private BookingStatus status;
 	private LocalDate startDate;
 	private LocalDate endDate;
+	private Double discountAmount; 
 }
