@@ -56,7 +56,8 @@ public class BookingServiceImplementation implements BookingService {
     
    
     private static final LocalTime PEAK_START_TIME = LocalTime.of(18, 0);
-    private static final double PEAK_MULTIPLIER = 1.5; // 50% extra
+    private static final double PEAK_MULTIPLIER = 1.5; // 50% extra after 6:00 pm
+    double discountAmount ;
 
    
     @Override
@@ -90,9 +91,20 @@ public class BookingServiceImplementation implements BookingService {
 
         double totalAmount =
                 turfAmount + accessories.stream().mapToDouble(BookingAccessory::getCost).sum();
+        
+        // fetch client wallet
+        Wallet clientWallet = walletRepository.findByClient(client)
+                .orElseThrow(() -> new RuntimeException("Client wallet not found"));
 
+        // calculate discount
+        discountAmount =
+                calculateDiscount(clientWallet.getBalance(), totalAmount);
+
+        // final payable amount
+        double finalAmount = totalAmount - discountAmount;
+        
         double advanceAmount =
-                transferBookingAmount(client, admin, totalAmount);
+                transferBookingAmount(client, admin, finalAmount);
         
         Booking booking = saveBooking(
                 client,
@@ -103,7 +115,9 @@ public class BookingServiceImplementation implements BookingService {
                 bookingDays,
                 turfAmount,
                 accessoriesTotal,
-                advanceAmount
+                advanceAmount,
+                discountAmount
+                
         );
 
         saveBookingAccessories(accessories, booking);
@@ -329,7 +343,25 @@ public class BookingServiceImplementation implements BookingService {
 
         return dailyHours * calculateBookingDays(type, window);
     }
+    
+    private double calculateDiscount(double walletBalance, double totalAmount) {
 
+        double discountPercentage = walletBalance / 1000;
+
+        // cap discount at 50%
+        if (discountPercentage > 50) {
+            discountPercentage = 50;
+        }
+
+        double discountAmount = (discountPercentage / 100) * totalAmount;
+
+        // safety guard
+        if (discountAmount > totalAmount) {
+            discountAmount = totalAmount;
+        }
+
+        return discountAmount;
+    }
    
     //calculate turf amount
     private double calculateTurfAmount(
@@ -459,7 +491,7 @@ public class BookingServiceImplementation implements BookingService {
                 admin.getId(),
                 totalAmount,
                 WalletTransactionReason.BOOKING_PAYMENT,
-                "Turf booked by  " + client.getName(),
+                "Turf booked by  " + client.getName()+ " (Discount applied ₹" + discountAmount + ")",
                 true, // credit
                 adminWallet.getBalance()
         );
@@ -479,7 +511,8 @@ public class BookingServiceImplementation implements BookingService {
             int bookingDays,
             double turfAmount,
             double accessoriesTotal,
-            double advanceAmount
+            double advanceAmount,
+            double discountAmount
     ) {
 
         Booking booking = Booking.builder()
@@ -497,6 +530,7 @@ public class BookingServiceImplementation implements BookingService {
                 .totalAmount(turfAmount + accessoriesTotal)
                 .advanceAmount(advanceAmount)
                 .status(BookingStatus.BOOKED)
+                .discountAmount(discountAmount)
                 .build();
 
         return bookingRepository.save(booking);
@@ -538,6 +572,7 @@ public class BookingServiceImplementation implements BookingService {
                 .totalAmount(booking.getTotalAmount())
                 .advanceAmount(booking.getAdvanceAmount())
                 .status(booking.getStatus())
+                .discountAmount(booking.getDiscountAmount())
                 .build();
     }
 

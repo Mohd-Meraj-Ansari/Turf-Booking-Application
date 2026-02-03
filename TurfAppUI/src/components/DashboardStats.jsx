@@ -75,7 +75,7 @@ const DashboardStats = () => {
       <div className="col-12 col-sm-6 col-lg-3">
         <StatCard
           title="Wallet Balance"
-          value={`₹${stats.walletBalance}`}
+          value={`₹${stats.walletBalance.toFixed(2)}`}
           badge="💳"
           borderColor="#fd7e14"
         />
@@ -84,7 +84,7 @@ const DashboardStats = () => {
       <div className="col-12 col-sm-6 col-lg-3">
         <StatCard
           title="Total Spent"
-          value={`₹${stats.totalSpent}`}
+          value={`₹${stats.totalSpent.toFixed(2)}`}
           badge="💰"
           borderColor="#20c997"
         />

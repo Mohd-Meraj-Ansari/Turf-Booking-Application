@@ -46,11 +46,17 @@ public class ClientDashboardServiceImpl implements ClientDashboardService {
         long upcomingBookings =
                 bookingRepository.countUpcomingBookings(client, LocalDate.now());
 
-        double totalSpent =
+//        double totalSpent =
                 bookingRepository.calculateTotalSpent(client);
+        
+        double totalDiscount =
+        	    bookingRepository.calculateTotalDiscount(client);
+        
+        double totalSpent = bookingRepository.calculateTotalPaid(client);
 
         Wallet wallet = walletRepository.findByClient(client)
                 .orElseThrow(() -> new RuntimeException("Wallet not found"));
+        
 
         return ClientDashboardStatsDTO.builder()
                 .totalBookings(totalBookings)

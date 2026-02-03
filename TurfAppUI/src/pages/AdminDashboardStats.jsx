@@ -58,7 +58,7 @@ const AdminDashboardStats = () => {
 
       <StatCard
         title="Today’s Earnings"
-        value={`₹${stats.todaysEarnings ?? 0}`}
+        value={`₹${stats.todaysEarnings.toFixed(2) ?? 0}`}
         icon="💰"
         bg="green"
       />

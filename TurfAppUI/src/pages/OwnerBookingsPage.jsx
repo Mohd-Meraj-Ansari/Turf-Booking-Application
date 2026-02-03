@@ -122,7 +122,7 @@ const OwnerBookingsPage = () => {
                       : "Full Day"}
                   </td>
 
-                  <td>{b.totalAmount}</td>
+                  <td>{b.advanceAmount.toFixed(2)}</td>
 
                   <td>
                     <span className={`status-badge ${b.status.toLowerCase()}`}>

@@ -85,6 +85,24 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 			    AND b.status = 'BOOKED'
 			""")
 	double calculateTotalSpent(User client);
+	
+	//calculate total discount
+	@Query("""
+		    SELECT COALESCE(SUM(b.totalAmount - b.advanceAmount), 0)
+		    FROM Booking b
+		    WHERE b.client = :client
+		      AND b.status = 'BOOKED'
+		""")
+		double calculateTotalDiscount(@Param("client") User client);
+
+	//total payment
+	@Query("""
+		    SELECT COALESCE(SUM(b.advanceAmount), 0)
+		    FROM Booking b
+		    WHERE b.client = :client
+		      AND b.status = 'BOOKED'
+		""")
+		double calculateTotalPaid(@Param("client") User client);
 
 	// run scheduler for 'completion' of booking
 	@Modifying
@@ -134,12 +152,13 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 		    SELECT COUNT(b)
 		    FROM Booking b
 		    WHERE b.turf = :turf
+			  AND b.status = 'BOOKED'
 		      AND b.startDate = :today
 		""")
 		long countTodayBookings(Turf turf, LocalDate today);
 
 		@Query("""
-		    SELECT COALESCE(SUM(b.totalAmount), 0)
+		    SELECT COALESCE(SUM(b.advanceAmount), 0)
 		    FROM Booking b
 		    WHERE b.turf = :turf
 		      AND b.status = 'BOOKED'

@@ -103,10 +103,10 @@ const WalletTransactionPage = () => {
                       t.type === "CREDIT" ? "credit" : "debit"
                     }`}
                   >
-                    {t.type === "CREDIT" ? "+" : "-"}₹{t.amount}
+                    {t.type === "CREDIT" ? "+" : "-"}₹{t.amount.toFixed(2)}
                   </td>
 
-                  <td>₹{t.balanceAfter}</td>
+                  <td>₹{t.balanceAfter.toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>
