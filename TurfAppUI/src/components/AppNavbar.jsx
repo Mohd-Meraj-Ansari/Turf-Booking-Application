@@ -32,9 +32,7 @@ const AppNavbar = () => {
         {/* NOT LOGGED IN */}
         {!role && (
           <>
-            {/* <NavLink to="/" className="nav-link">
-              Home
-            </NavLink> */}
+          
             <NavLink to="/login" className="nav-link">
               Login
             </NavLink>
