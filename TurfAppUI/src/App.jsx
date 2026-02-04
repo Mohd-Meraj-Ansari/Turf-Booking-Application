@@ -1,29 +1,27 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
 
 import AppNavbar from "./components/AppNavbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 
 //client pages
+import BookingHistoryPage from "./pages/BookingHistoryPage";
 import ClientDashboard from "./pages/ClientDashboard";
 import TopUpPage from "./pages/TopUpPage";
 import TurfBookingPage from "./pages/TurfBookingPage";
-import BookingHistoryPage from "./pages/BookingHistoryPage";
 import UpdateProfile from "./pages/UpdateClientProfilePage";
 // admin pages
-import AdminDashboard from "./pages/AdminDashboard";
-import AddTurfPage from "./pages/AddTurfPage";
 import AddAccessoryPage from "./pages/AddAccessoryPage";
-import TurfAvailabilityPage from "./pages/TurfAvailabilityPage";
-import AllBookingsPage from "./pages/AllBookingPage";
+import AddTurfPage from "./pages/AddTurfPage";
+import AdminDashboard from "./pages/AdminDashboard";
 import AdminWalletPage from "./pages/AdminWalletPage";
 import OwnerBookingsPage from "./pages/OwnerBookingsPage";
-import WalletTransactionsPage from "./pages/WalletTransactionPage";
+import TurfAvailabilityPage from "./pages/TurfAvailabilityPage";
 import TurfStatusPage from "./pages/TurfStatusPage";
+import WalletTransactionsPage from "./pages/WalletTransactionPage";
 
 function App() {
   return (
@@ -33,7 +31,7 @@ function App() {
       <div className="page-container">
         <Routes>
           {/* public routes */}
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           {/* client only routes */}
