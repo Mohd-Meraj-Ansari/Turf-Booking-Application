@@ -34,6 +34,7 @@ const RegisterPage = () => {
         body: JSON.stringify(values),
       });
 
+      console.log(response);
       if (response.ok) {
         const data = await response.json();
 
@@ -44,9 +45,9 @@ const RegisterPage = () => {
         alert("Registration successful! Login to continue");
         logout();
         navigate("/login");
-      } else {
-        alert("Invalid username or password");
       }
+      const errorMessage = await response.text();
+      alert(errorMessage);
     } catch (error) {
       console.error("Error submitting the form", error);
     }
