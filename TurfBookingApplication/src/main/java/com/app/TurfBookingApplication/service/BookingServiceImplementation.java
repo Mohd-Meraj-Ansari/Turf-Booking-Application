@@ -15,12 +15,14 @@ import com.app.TurfBookingApplication.dto.BookingAccessoryRequestDTO;
 import com.app.TurfBookingApplication.dto.BookingRequestDTO;
 import com.app.TurfBookingApplication.dto.BookingResponseDTO;
 import com.app.TurfBookingApplication.entity.Accessory;
+import com.app.TurfBookingApplication.entity.Bill;
 import com.app.TurfBookingApplication.entity.Booking;
 import com.app.TurfBookingApplication.entity.BookingAccessory;
 import com.app.TurfBookingApplication.entity.Turf;
 import com.app.TurfBookingApplication.entity.TurfAvailability;
 import com.app.TurfBookingApplication.entity.User;
 import com.app.TurfBookingApplication.entity.Wallet;
+import com.app.TurfBookingApplication.enums.BillStatus;
 import com.app.TurfBookingApplication.enums.BookingStatus;
 import com.app.TurfBookingApplication.enums.BookingType;
 import com.app.TurfBookingApplication.enums.CancelledBy;
@@ -28,6 +30,7 @@ import com.app.TurfBookingApplication.enums.UserRole;
 import com.app.TurfBookingApplication.enums.WalletTransactionReason;
 import com.app.TurfBookingApplication.exception.InsufficientBalanceException;
 import com.app.TurfBookingApplication.repository.AccessoryRepository;
+import com.app.TurfBookingApplication.repository.BillRepository;
 import com.app.TurfBookingApplication.repository.BookingAccessoryRepository;
 import com.app.TurfBookingApplication.repository.BookingRepository;
 import com.app.TurfBookingApplication.repository.TurfAvailabilityRepository;
@@ -53,6 +56,7 @@ public class BookingServiceImplementation implements BookingService {
     private final BookingAccessoryRepository bookingAccessoryRepository;
     private final WalletRepository walletRepository;
     private final WalletTransactionService walletTransactionService;
+    private final BillRepository billRepository;
     
    
     private static final LocalTime PEAK_START_TIME = LocalTime.of(18, 0);
@@ -119,6 +123,15 @@ public class BookingServiceImplementation implements BookingService {
                 discountAmount
                 
         );
+        
+        //save bill
+        Bill bill = generateAndSaveBill(
+                booking,
+                turfAmount,
+                accessoriesTotal,
+                discountAmount,   
+                totalAmount
+        );
 
         saveBookingAccessories(accessories, booking);
 
@@ -126,7 +139,7 @@ public class BookingServiceImplementation implements BookingService {
     }
 
    
-    //fetch client
+	//fetch client
     private User getLoggedInClient(Authentication authentication) {
         User user = userRepository.findByEmail(authentication.getName())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -536,6 +549,25 @@ public class BookingServiceImplementation implements BookingService {
         return bookingRepository.save(booking);
     }
 
+    
+    private Bill generateAndSaveBill(Booking booking,
+    		double turfAmount,
+    		double accessoriesAmount,
+    		double discountAmount,
+    		double totalAmount) 
+    {
+        Bill bill = Bill.builder()
+                .booking(booking)
+                .baseAmount(turfAmount)
+                .accessoriesAmount(accessoriesAmount)
+                .discountAmount(discountAmount)
+                .totalAmount(booking.getAdvanceAmount())
+                .billDate(LocalDate.now())
+                .status(BillStatus.PAID)
+                .build();
+
+        return billRepository.save(bill);
+    }
 
     private BookingResponseDTO buildResponse(
             Booking booking,
@@ -706,6 +738,13 @@ public class BookingServiceImplementation implements BookingService {
                 false,
                 adminWallet.getBalance()
         );
+        
+        //cancel status of bill
+        Bill bill = billRepository.findByBooking(booking)
+                .orElseThrow(() -> new RuntimeException("Bill not found"));
+
+        bill.setStatus(BillStatus.REFUNDED);
+        billRepository.save(bill);
     }
 
 
