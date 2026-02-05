@@ -23,7 +23,7 @@ const BookingHistoryPage = () => {
             password: auth.password,
           },
         });
-        console.log(res.data);
+        // console.log(res.data);
         setBookings(res.data);
       } catch (err) {
         setMessage("Failed to load booking history");
