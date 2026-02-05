@@ -735,7 +735,7 @@ public class BookingServiceImplementation implements BookingService {
                 admin.getId(),
                 refundAmount,
                 WalletTransactionReason.BOOKING_PAYMENT,
-                "Refund issued to client",
+                "Refund issued to "+client.getName(),
                 false,
                 adminWallet.getBalance()
         );

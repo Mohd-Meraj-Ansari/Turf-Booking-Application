@@ -22,7 +22,10 @@ const BillsPage = () => {
           password: auth.password,
         },
       });
-      setBills(res.data);
+      // console.log(res.data);
+      const sortedBills = [...res.data].sort((a, b) => a.id - b.id);
+      setBills(sortedBills);
+      // setBills(res.data);
     } catch (err) {
       alert("Failed to load bills");
     } finally {
@@ -58,7 +61,7 @@ const BillsPage = () => {
                 <td>{bill.id}</td>
                 <td>₹{bill.totalAmount.toFixed(2)}</td>
                 <td>
-                  <span className="status paid">PAID</span>
+                  <span className="status">{bill.status}</span>
                 </td>
                 <td className="view-link">View →</td>
               </tr>
