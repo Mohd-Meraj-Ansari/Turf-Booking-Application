@@ -40,6 +40,12 @@ const TurfStatusPage = () => {
   if (loading) return <p className="loading">Loading...</p>;
   if (!data) return <p>No data available</p>;
 
+  const isPastSlot = (slotStartTime) => {
+    const slotDateTime = new Date(`${date}T${slotStartTime}`);
+    const now = new Date();
+    return slotDateTime < now;
+  };
+
   return (
     <div className="table-container">
       {/* Header */}
@@ -106,13 +112,17 @@ const TurfStatusPage = () => {
                 <td>{slot.startTime}</td>
                 <td>{slot.endTime}</td>
                 <td>
-                  <span
-                    className={`status-pill ${
-                      slot.status === "BOOKED" ? "booked" : "available"
-                    }`}
-                  >
-                    {slot.status}
-                  </span>
+                  {isPastSlot(slot.startTime) ? (
+                    <span className="status-pill cannot-book">UNAVAILABLE</span>
+                  ) : (
+                    <span
+                      className={`status-pill ${
+                        slot.status === "BOOKED" ? "booked" : "available"
+                      }`}
+                    >
+                      {slot.status}
+                    </span>
+                  )}
                 </td>
               </tr>
             ))}
