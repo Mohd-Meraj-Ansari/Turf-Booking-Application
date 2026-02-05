@@ -18,8 +18,6 @@ const TurfAvailabilityPage = () => {
 
   const [availability, setAvailability] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // ✅ global time state (INSIDE component)
   const [globalOpenTime, setGlobalOpenTime] = useState("");
   const [globalCloseTime, setGlobalCloseTime] = useState("");
 

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import com.app.TurfBookingApplication.enums.BookingStatus;
+import com.app.TurfBookingApplication.enums.BookingType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,5 +31,6 @@ public class BookingResponseDTO {
 	private BookingStatus status;
 	private LocalDate startDate;
 	private LocalDate endDate;
-	private Double discountAmount; 
+	private Double discountAmount;
+	private BookingType bookingType;
 }

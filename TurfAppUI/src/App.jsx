@@ -22,6 +22,9 @@ import OwnerBookingsPage from "./pages/OwnerBookingsPage";
 import TurfAvailabilityPage from "./pages/TurfAvailabilityPage";
 import TurfStatusPage from "./pages/TurfStatusPage";
 import WalletTransactionsPage from "./pages/WalletTransactionPage";
+import BillsPage from "./pages/Billspage";
+import Billspage from "./pages/Billspage";
+import BillDetailsPage from "./pages/BillDetailsPage";
 
 function App() {
   return (
@@ -85,6 +88,25 @@ function App() {
             element={
               <ProtectedRoute allowedRole="CLIENT">
                 <TurfStatusPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* client bill */}
+          <Route
+            path="/client/bills"
+            element={
+              <ProtectedRoute allowedRole="CLIENT">
+                <Billspage />
+              </ProtectedRoute>
+            }
+          />
+          {/* client bill details */}
+          <Route
+            path="/client/bills/:billId"
+            element={
+              <ProtectedRoute allowedRole="CLIENT">
+                <BillDetailsPage />
               </ProtectedRoute>
             }
           />

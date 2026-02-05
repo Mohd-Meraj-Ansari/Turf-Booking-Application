@@ -636,6 +636,7 @@ public class BookingServiceImplementation implements BookingService {
                         .totalAmount(b.getTotalAmount())
                         .advanceAmount(b.getAdvanceAmount())
                         .status(b.getStatus())
+                        .bookingType(b.getBookingType())
                         .build()
                 )
                 .toList();

@@ -1,0 +1,51 @@
+.bills-container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 24px;
+}
+
+.page-title {
+  margin-bottom: 20px;
+}
+
+.bills-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.bills-table th,
+.bills-table td {
+  padding: 14px 18px;
+  text-align: left;
+}
+
+.bills-table thead {
+  background: #f5f7fb;
+}
+
+.bills-table tbody tr {
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.bills-table tbody tr:hover {
+  background: #f0f9ff;
+}
+
+.status.paid {
+  background: #e6f9ef;
+  color: #0f9d58;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.view-link {
+  color: #2563eb;
+  font-weight: 500;
+}
