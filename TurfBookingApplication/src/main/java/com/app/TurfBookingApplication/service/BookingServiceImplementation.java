@@ -64,6 +64,7 @@ public class BookingServiceImplementation implements BookingService {
     double discountAmount ;
 
    
+    @Transactional //for atomic operation
     @Override
     public BookingResponseDTO bookTurf(
             BookingRequestDTO request,
@@ -76,6 +77,12 @@ public class BookingServiceImplementation implements BookingService {
         BookingType bookingType = request.getBookingType();
         BookingWindow window = resolveBookingWindow(request);
 
+        //lock method 
+        bookingRepository.lockBookingsForDate(
+                turf,
+                window.getStartDate()
+        );
+        
         TurfAvailability availability =
                 validateAvailability(turf, bookingType, window);
 
@@ -504,7 +511,7 @@ public class BookingServiceImplementation implements BookingService {
                 admin.getId(),
                 totalAmount,
                 WalletTransactionReason.BOOKING_PAYMENT,
-                "Turf booked by  " + client.getName()+ " (Discount applied ₹" + discountAmount + ")",
+                "Turf booked by  " + client.getName()+ " (Discount applied ₹" +String.format("%.2f", discountAmount)  + ")",
                 true, // credit
                 adminWallet.getBalance()
         );
