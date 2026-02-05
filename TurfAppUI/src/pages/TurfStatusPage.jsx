@@ -92,7 +92,7 @@ const TurfStatusPage = () => {
         <table className="status-table text-center">
           <thead>
             <tr>
-              <th>#</th>
+              <th>No</th>
               <th>Start Time</th>
               <th>End Time</th>
               <th>Status</th>

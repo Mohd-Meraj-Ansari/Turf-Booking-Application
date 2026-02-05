@@ -18,9 +18,7 @@ const AppNavbar = () => {
     <nav className="app-navbar">
       {/* LEFT */}
       <div className="logo">
-        <span className="logo-badge" >
-          BookMyTurf
-        </span>
+        <span className="logo-badge">BookMyTurf</span>
         {/* <h4 className="logo" onClick={() => navigate("/")}>
           BookMyTurf
         </h4> */}
@@ -32,7 +30,6 @@ const AppNavbar = () => {
         {/* NOT LOGGED IN */}
         {!role && (
           <>
-          
             <NavLink to="/login" className="nav-link">
               Login
             </NavLink>
@@ -64,6 +61,10 @@ const AppNavbar = () => {
 
             <NavLink to="/client/turfstatus" className="nav-link">
               Turf Status
+            </NavLink>
+
+            <NavLink to="/client/bills" className="nav-link">
+              Invoice
             </NavLink>
           </>
         )}

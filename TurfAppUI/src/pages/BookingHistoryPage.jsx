@@ -23,6 +23,7 @@ const BookingHistoryPage = () => {
             password: auth.password,
           },
         });
+        console.log(res.data);
         setBookings(res.data);
       } catch (err) {
         setMessage("Failed to load booking history");
@@ -138,22 +139,34 @@ const BookingHistoryPage = () => {
                       </td>
 
                       <td>
-                        {b.startDate === b.endDate ? (
+                        {b.bookingType === "MULTI_DAY" ? (
+                          <>
+                            {b.startDate} <br />
+                            <b>to</b> {b.endDate}
+                          </>
+                        ) : b.startDate === b.endDate ? (
                           b.startDate
                         ) : (
                           <>
-                            {b.startDate} <br /> <b>to</b> {b.endDate}
+                            {b.startDate} <br />
+                            <b>to</b> {b.endDate}
                           </>
                         )}
                       </td>
 
                       <td>
-                        {b.startTime && b.endTime ? (
+                        {b.bookingType === "HOURLY" && (
                           <>
                             {b.startTime} – {b.endTime}
                           </>
-                        ) : (
+                        )}
+
+                        {b.bookingType === "FULL_DAY" && (
                           <span className="text-muted">Full Day</span>
+                        )}
+
+                        {b.bookingType === "MULTI_DAY" && (
+                          <span className="text-muted">Multiple Days</span>
                         )}
                       </td>
 
