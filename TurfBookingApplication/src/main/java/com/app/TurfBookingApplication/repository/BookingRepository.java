@@ -5,6 +5,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,6 +15,8 @@ import com.app.TurfBookingApplication.entity.Turf;
 import com.app.TurfBookingApplication.entity.User;
 import com.app.TurfBookingApplication.enums.BookingStatus;
 import com.app.TurfBookingApplication.enums.BookingType;
+
+import jakarta.persistence.LockModeType;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
@@ -186,4 +189,16 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 		long countByTurf(Turf turf);
 
 
+		//locking query
+		@Lock(LockModeType.PESSIMISTIC_WRITE)
+		@Query("""
+		    SELECT b
+		    FROM Booking b
+		    WHERE b.turf = :turf
+		      AND b.startDate = :date
+		""")
+		List<Booking> lockBookingsForDate(
+		        @Param("turf") Turf turf,
+		        @Param("date") LocalDate date
+		);
 }

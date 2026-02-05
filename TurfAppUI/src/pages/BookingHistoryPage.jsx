@@ -24,7 +24,10 @@ const BookingHistoryPage = () => {
           },
         });
         // console.log(res.data);
-        setBookings(res.data);
+        const sortedhistory = [...res.data].sort(
+          (a, b) => a.bookingid - b.bookingid,
+        );
+        setBookings(sortedhistory);
       } catch (err) {
         setMessage("Failed to load booking history");
       } finally {
