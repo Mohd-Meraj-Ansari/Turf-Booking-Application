@@ -52,7 +52,7 @@ public class ClientDashboardServiceImpl implements ClientDashboardService {
         double totalDiscount =
         	    bookingRepository.calculateTotalDiscount(client);
         
-        double totalSpent = bookingRepository.calculateTotalPaid(client);
+        double totalSpent = bookingRepository.calculateTotalSpent(client);
 
         Wallet wallet = walletRepository.findByClient(client)
                 .orElseThrow(() -> new RuntimeException("Wallet not found"));

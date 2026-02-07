@@ -42,7 +42,7 @@ const RegisterPage = () => {
         localStorage.setItem("password", values.password);
         localStorage.setItem("role", data.role);
 
-        alert("Registration successful! Login to continue");
+        alert("Registration successful! \nLogin to continue");
         logout();
         navigate("/login");
       }

@@ -166,7 +166,7 @@ const TurfBookingPage = () => {
           </li>
           <li>
             Discount Formula:
-            <strong> totalAmount ÷ 1000</strong>
+            <strong> wallet balance ÷ 1000</strong>
           </li>
           <li>
             Maximum discount cap: <strong>50% of total amount</strong>
