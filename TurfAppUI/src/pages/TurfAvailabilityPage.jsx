@@ -54,7 +54,7 @@ const TurfAvailabilityPage = () => {
     setAvailability(updated);
   };
 
-  // ✅ apply common time to all OPEN days
+  //apply common time to all OPEN days
   const applyTimeToAllOpenDays = () => {
     const updated = availability.map((day) =>
       day.available
@@ -82,9 +82,9 @@ const TurfAvailabilityPage = () => {
         },
       );
 
-      alert("Turf availability saved successfully ✅");
+      alert("Turf availability saved successfully ");
     } catch (err) {
-      alert("Failed to save availability ❌");
+      alert("Failed to save availability ");
     }
   };
 
@@ -95,7 +95,7 @@ const TurfAvailabilityPage = () => {
       <div className="availability-card">
         <h2>Turf Availability</h2>
 
-        {/* ✅ Common time section */}
+        {/*Common time section */}
         <div className="common-time horizontal">
           <input
             type="time"

@@ -82,12 +82,14 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 	long countUpcomingBookings(User client, LocalDate today);
 
 	@Query("""
-			    SELECT COALESCE(SUM(b.totalAmount), 0)
-			    FROM Booking b
-			    WHERE b.client = :client
-			    AND b.status = 'BOOKED'
-			""")
-	double calculateTotalSpent(User client);
+		    SELECT COALESCE(
+		        SUM(b.totalAmount - COALESCE(b.refundAmount, 0)), 
+		        0
+		    )
+		    FROM Booking b
+		    WHERE b.client = :client
+		""")
+		double calculateTotalSpent(User client);
 	
 	//calculate total discount
 	@Query("""
@@ -103,7 +105,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 		    SELECT COALESCE(SUM(b.advanceAmount), 0)
 		    FROM Booking b
 		    WHERE b.client = :client
-		      AND b.status = 'BOOKED'
+		      AND b.status IN ('BOOKED', 'COMPLETED', 'CANCELLED')
 		""")
 		double calculateTotalPaid(@Param("client") User client);
 

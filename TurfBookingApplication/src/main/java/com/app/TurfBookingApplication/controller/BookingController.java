@@ -59,6 +59,7 @@ public class BookingController {
 	    return ResponseEntity.ok("Booking cancelled successfully");
 	}
 	
+	//all-bookings
 	 @GetMapping("/my-turf")
 	    public ResponseEntity<List<BookingResponseDTO>> getBookingsForMyTurf(
 	            Authentication authentication) {

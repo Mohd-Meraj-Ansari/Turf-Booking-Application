@@ -366,8 +366,7 @@ public class BookingServiceImplementation implements BookingService {
     
     private double calculateDiscount(double walletBalance, double totalAmount) {
 
-        double discountPercentage = walletBalance / 1000;
-
+        double discountPercentage = Math.floor(walletBalance / 100) / 10;
         // cap discount at 50%
         if (discountPercentage > 50) {
             discountPercentage = 50;
@@ -727,6 +726,7 @@ public class BookingServiceImplementation implements BookingService {
         //update booking
         booking.setStatus(BookingStatus.CANCELLED);
         booking.setCancelledBy(CancelledBy.CLIENT);
+        booking.setRefundAmount(refundAmount);
         bookingRepository.save(booking);
         
         walletTransactionService.recordTransaction(
@@ -753,6 +753,9 @@ public class BookingServiceImplementation implements BookingService {
 
         bill.setStatus(BillStatus.REFUNDED);
         billRepository.save(bill);
+        
+        double totalSpent = bookingRepository.calculateTotalSpent(client);
+        System.out.println("DB TotalSpent = " + totalSpent);
     }
 
 
@@ -785,6 +788,7 @@ public class BookingServiceImplementation implements BookingService {
                         .totalAmount(b.getTotalAmount())
                         .advanceAmount(b.getAdvanceAmount())
                         .status(b.getStatus())
+                        .bookingType(b.getBookingType())
                         .build())
                 .toList();
     }

@@ -40,7 +40,7 @@ const LoginPage = () => {
         name: response.data.name,
       });
 
-      // Optional UI persistence (NO password)
+      // Optional
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("role", response.data.role);
       localStorage.setItem("clientName", response.data.name);

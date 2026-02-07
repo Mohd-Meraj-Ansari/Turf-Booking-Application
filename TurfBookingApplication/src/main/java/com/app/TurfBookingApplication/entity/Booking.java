@@ -63,4 +63,5 @@ public class Booking {
 	private Double accessoriesTotal;
 
 	private Double discountAmount;
+	private Double refundAmount;
 }

@@ -24,7 +24,7 @@ const AllBookingsPage = () => {
           },
         },
       );
-
+      // console.log(res.data);
       setBookings(res.data);
     } catch (err) {
       alert("Failed to load turf bookings");
@@ -82,12 +82,18 @@ const AllBookingsPage = () => {
                     </td>
 
                     <td>
-                      {b.startTime && b.endTime ? (
+                      {b.bookingType === "HOURLY" && (
                         <>
                           {b.startTime} – {b.endTime}
                         </>
-                      ) : (
-                        <span className="muted">Full Day</span>
+                      )}
+
+                      {b.bookingType === "FULL_DAY" && (
+                        <span className="">Full Day</span>
+                      )}
+
+                      {b.bookingType === "MULTI_DAY" && (
+                        <span className="">Multiple Days</span>
                       )}
                     </td>
 
