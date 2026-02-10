@@ -91,6 +91,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 		""")
 		double calculateTotalSpent(User client);
 	
+	
 	//calculate total discount
 	@Query("""
 		    SELECT COALESCE(SUM(b.totalAmount - b.advanceAmount), 0)
